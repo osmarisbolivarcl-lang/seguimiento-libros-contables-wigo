@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seguimiento Libros Contables – WIGO</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.7.2/Recharts.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; font-family: Inter, system-ui, sans-serif; background: #f0f2f0; }
+    * { box-sizing: border-box; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+<script type="text/babel">
+const { useState, useMemo } = React;
+const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip: RTooltip, ResponsiveContainer, Cell } = Recharts;
+
+const INICIATIVAS = [
+  { id: 1, iniciativa: "Libro Diario", tipo: "Contabilidad", objetivo: 'Corregir los errores de formatos para que cumpla con el formato del sistema validador del PLE.', solucion: 'Pendiente', accion: 'Sesión de revisión con Quiter', accionResp: 'QUITER', prioridad: "Alta", keyuser: "Eris Gómez", responsable: "QUITER", estado: "COMPLETADO", subestado: "REVISIÓN QUITER", fase: 1, inicio: "2026-04-24", fin: "2026-06-02", duracion: 40, avance: 10 },
+  { id: 2, iniciativa: "Registro de Compra", tipo: "Contabilidad", objetivo: 'Actualizar el formato actual para que cumpla con el formato SIRE.', solucion: 'Pendiente', accion: 'Revisión de reportes generados en Quiter', accionResp: 'AMERICAR', prioridad: "Alta", keyuser: "Eris Gómez", responsable: "AMERICAR", estado: "EN PROGRESO", subestado: "LEVANTAMIENTO DEL REQUERIMIENTO", fase: 1, inicio: "2026-06-22", fin: "2026-06-26", duracion: 5, avance: 0 },
+  { id: 3, iniciativa: "Registro de Venta", tipo: "Contabilidad", objetivo: 'Actualizar el formato actual para que cumpla con el formato SIRE.', solucion: 'Pendiente', accion: 'Revisión de reportes generados en Quiter', accionResp: 'AMERICAR', prioridad: "Alta", keyuser: "Eris Gómez", responsable: "AMERICAR", estado: "EN PROGRESO", subestado: "LEVANTAMIENTO DEL REQUERIMIENTO", fase: 1, inicio: "2026-06-22", fin: "2026-06-26", duracion: 5, avance: 0 },
+  { id: 4, iniciativa: "Libro Mayor", tipo: "Contabilidad", objetivo: '', solucion: 'Pendiente', accion: 'Levantamiento de procesos', accionResp: 'AMERICAR', prioridad: "Media", keyuser: "Pendiente", responsable: "AMERICAR", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 1, inicio: "2026-06-22", fin: "2026-07-03", duracion: 12, avance: 0 },
+  { id: 5, iniciativa: "Libro Caja y Banco", tipo: "Contabilidad", objetivo: '', solucion: 'Pendiente', accion: 'Levantamiento de procesos', accionResp: 'AMERICAR', prioridad: "Media", keyuser: "Pendiente", responsable: "AMERICAR", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 1, inicio: "2026-07-01", fin: "2026-07-10", duracion: 10, avance: 0 },
+  { id: 6, iniciativa: "Libro de Inventario", tipo: "Inventario", objetivo: '', solucion: 'Pendiente', accion: '', accionResp: 'QUITER', prioridad: "Media", keyuser: "Pendiente", responsable: "QUITER", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 1, inicio: "2026-07-06", fin: "2026-07-17", duracion: 12, avance: 0 },
+  { id: 7, iniciativa: "Libro Activo Fijo", tipo: "Activos", objetivo: '', solucion: 'Pendiente', accion: '', accionResp: 'AMERICAR', prioridad: "Baja", keyuser: "Pendiente", responsable: "AMERICAR", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 1, inicio: "2026-07-13", fin: "2026-07-24", duracion: 12, avance: 0 },
+  { id: 8, iniciativa: "Inv. Permanente Vehículos", tipo: "Inventario", objetivo: '', solucion: 'Pendiente', accion: '', accionResp: 'QUITER', prioridad: "Baja", keyuser: "Pendiente", responsable: "QUITER", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 2, inicio: "2026-08-03", fin: "2026-08-14", duracion: 12, avance: 0 },
+  { id: 9, iniciativa: "Inv. Permanente Repuestos", tipo: "Inventario", objetivo: '', solucion: 'Pendiente', accion: '', accionResp: 'QUITER', prioridad: "Baja", keyuser: "Pendiente", responsable: "QUITER", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 2, inicio: "2026-08-03", fin: "2026-08-14", duracion: 12, avance: 0 },
+];
+
+const HITOS = [
+  { nombre: "Control de avance · Fase 1", inicio: "2026-07-20", fin: "2026-07-31", fase: 1 },
+  { nombre: "Control de avance · Fase 2", inicio: "2026-08-17", fin: "2026-08-28", fase: 2 },
+];
+
+const HOY = new Date("2026-06-18");
+
+const B = {
+  verde: "#1a4a3a", verdeM: "#2d6b54", naranja: "#e8631a", naranjaL: "#f07d3a",
+  fondo: "#f0f2f0", linea: "#d6e0da", texto: "#1a2e25", textoSub: "#4a7060",
+};
+
+const COLOR_ESTADO = { "COMPLETADO": B.verde, "EN PROGRESO": B.naranja, "POR INICIAR": "#8aaa99" };
+const ORDEN_ESTADO = ["COMPLETADO", "EN PROGRESO", "POR INICIAR"];
+const COLOR_SUBESTADO = {
+  "COMPLETADO": B.verde, "REVISIÓN QUITER": B.verdeM,
+  "LEVANTAMIENTO DEL REQUERIMIENTO": B.naranja, "POR INICIAR": "#8aaa99",
+};
+const COLOR_PRIORIDAD = {
+  "Alta": { bg: "#fde8d8", fg: "#b84a0e" },
+  "Media": { bg: "#d5e8de", fg: B.verde },
+  "Baja": { bg: "#e4ede9", fg: B.textoSub },
+};
+
+const fmtFecha = (s) => new Date(s + "T00:00:00").toLocaleDateString("es-PE", { day: "2-digit", month: "short" });
+
+function BadgePrioridad({ p }) {
+  const c = COLOR_PRIORIDAD[p];
+  return <span style={{ background: c.bg, color: c.fg, padding: "2px 8px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>{p}</span>;
+}
+function BadgeSub({ s }) {
+  return <span style={{ background: COLOR_SUBESTADO[s] + "1a", color: COLOR_SUBESTADO[s], padding: "2px 8px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>{s}</span>;
+}
+
+function Monitoreo() {
+  const porSub = useMemo(() => {
+    const m = {};
+    INICIATIVAS.forEach(i => m[i.subestado] = (m[i.subestado] || 0) + 1);
+    return Object.keys(COLOR_SUBESTADO).filter(s => m[s]).map(name => ({ name, value: m[name] }));
+  }, []);
+
+  const thS = { color: "#fff", background: B.verde, fontSize: 11, padding: "8px 10px", textAlign: "left", borderRight: `1px solid ${B.verdeM}`, fontWeight: 700, textTransform: "uppercase", whiteSpace: "nowrap" };
+  const tdS = { fontSize: 12, padding: "8px 10px", borderBottom: `1px solid ${B.linea}`, borderRight: `1px solid ${B.linea}` };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      {/* Barra de avance */}
+      <div style={{ background: "#fff", borderRadius: 12, padding: 20, border: `1px solid ${B.linea}` }}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: B.verde }}>Avance del proyecto</span>
+          <span style={{ fontSize: 12, color: B.textoSub }}>9 iniciativas</span>
+        </div>
+        <div style={{ display: "flex", height: 32, borderRadius: 8, overflow: "hidden", border: `1px solid ${B.linea}` }}>
+          <div style={{ width: "33%", background: COLOR_ESTADO["EN PROGRESO"], display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 12, fontWeight: 700 }}>33%</div>
+          <div style={{ width: "67%", background: COLOR_ESTADO["POR INICIAR"], display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 12, fontWeight: 700 }}>67%</div>
+        </div>
+        <div style={{ display: "flex", gap: 20, marginTop: 10, fontSize: 12, color: B.textoSub }}>
+          <span>🟠 EN PROGRESO · 3 (33%)</span>
+          <span>⬜ POR INICIAR · 6 (67%)</span>
+        </div>
+      </div>
+
+      {/* Gráfico sub estado */}
+      <div style={{ background: "#fff", borderRadius: 12, padding: 20, border: `1px solid ${B.linea}` }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: B.verde, marginBottom: 4 }}>Detalle por sub estado</div>
+        <div style={{ fontSize: 12, color: B.textoSub, marginBottom: 12 }}>Fase operativa actual de cada iniciativa</div>
+        <ResponsiveContainer width="100%" height={200}>
+          <BarChart data={porSub} layout="vertical" margin={{ left: 10, right: 30 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#eaf0ec" horizontal={false} />
+            <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11 }} />
+            <YAxis type="category" dataKey="name" width={210} tick={{ fontSize: 11 }} />
+            <RTooltip />
+            <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={26} label={{ position: "right", fontSize: 12 }}>
+              {porSub.map(e => <Cell key={e.name} fill={COLOR_SUBESTADO[e.name]} />)}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Tabla */}
+      <div style={{ background: "#fff", borderRadius: 12, border: `1px solid ${B.linea}`, overflow: "hidden" }}>
+        <div style={{ background: B.verde, padding: "12px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{ color: "#fff", fontWeight: 700, fontSize: 13 }}>Iniciativas · Detalle y seguimiento</span>
+          <span style={{ color: "#a8c9bb", fontSize: 12 }}>9 libros y registros</span>
+        </div>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 900 }}>
+            <thead>
+              <tr>
+                {["#","Iniciativa","Objetivo","Prioridad","KeyUser","Sub estado","Acción","Responsable","% Avance"].map(h => (
+                  <th key={h} style={thS}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {INICIATIVAS.map((ini, idx) => (
+                <tr key={ini.id} style={{ background: idx % 2 === 0 ? "#fff" : "#f7faf8" }}>
+                  <td style={{ ...tdS, color: B.textoSub, fontWeight: 700, fontSize: 11 }}>{String(idx+1).padStart(2,"0")}</td>
+                  <td style={{ ...tdS, fontWeight: 600, whiteSpace: "nowrap" }}>{ini.iniciativa}</td>
+                  <td style={{ ...tdS, color: B.textoSub, maxWidth: 220, fontSize: 11 }}>
+                    {ini.objetivo || <span style={{ fontStyle: "italic", color: B.linea }}>Pendiente</span>}
+                  </td>
+                  <td style={{ ...tdS, textAlign: "center" }}><BadgePrioridad p={ini.prioridad} /></td>
+                  <td style={{ ...tdS, whiteSpace: "nowrap" }}>
+                    {ini.keyuser === "Pendiente"
+                      ? <span style={{ background: "#fde8d8", color: "#b84a0e", padding: "2px 8px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>Pendiente</span>
+                      : ini.keyuser}
+                  </td>
+                  <td style={tdS}><BadgeSub s={ini.subestado} /></td>
+                  <td style={{ ...tdS, fontSize: 11, color: B.textoSub }}>{ini.accion || "—"}</td>
+                  <td style={{ ...tdS, textAlign: "center" }}>
+                    <span style={{ background: ini.accionResp === "QUITER" ? B.verdeM+"22" : B.naranja+"22", color: ini.accionResp === "QUITER" ? B.verdeM : B.naranja, padding: "2px 8px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>
+                      {ini.accionResp}
+                    </span>
+                  </td>
+                  <td style={{ ...tdS, textAlign: "center" }}>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+                      <div style={{ width: 60, background: B.linea, borderRadius: 99, height: 6 }}>
+                        <div style={{ height: "100%", width: `${ini.avance}%`, background: ini.avance > 0 ? B.verde : "#d1dbd7", borderRadius: 99 }} />
+                      </div>
+                      <span style={{ fontSize: 11, fontWeight: 600, color: B.textoSub }}>{ini.avance}%</span>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Gantt() {
+  const SEMANAS = [
+    { label: "S4", fecha: "22-06", inicio: "2026-06-22", mes: "JUNIO" },
+    { label: "S1", fecha: "01-07", inicio: "2026-07-01", mes: "JULIO" },
+    { label: "S2", fecha: "06-07", inicio: "2026-07-06", mes: "JULIO" },
+    { label: "S3", fecha: "13-07", inicio: "2026-07-13", mes: "JULIO" },
+    { label: "S4", fecha: "20-07", inicio: "2026-07-20", mes: "JULIO" },
+    { label: "S4", fecha: "27-07", inicio: "2026-07-27", mes: "JULIO" },
+    { label: "S1", fecha: "03-08", inicio: "2026-08-03", mes: "AGOSTO" },
+    { label: "S2", fecha: "10-08", inicio: "2026-08-10", mes: "AGOSTO" },
+    { label: "S3", fecha: "17-08", inicio: "2026-08-17", mes: "AGOSTO" },
+    { label: "S4", fecha: "24-08", inicio: "2026-08-24", mes: "AGOSTO" },
+  ];
+
+  const mesesGrupos = SEMANAS.reduce((acc, s) => {
+    const last = acc[acc.length - 1];
+    if (last && last.mes === s.mes) last.count++;
+    else acc.push({ mes: s.mes, count: 1 });
+    return acc;
+  }, []);
+
+  const FILAS = [
+    ...INICIATIVAS.filter(i => i.fase === 1).map(i => ({ ...i, tipo_fila: "iniciativa" })),
+    { tipo_fila: "hito", ...HITOS[0], id: "h1" },
+    ...INICIATIVAS.filter(i => i.fase === 2).map(i => ({ ...i, tipo_fila: "iniciativa" })),
+    { tipo_fila: "hito", ...HITOS[1], id: "h2" },
+  ];
+
+  const PRIO_COLOR = { "Alta": B.naranja, "Media": B.verdeM, "Baja": "#8aaa99" };
+  const thS = { color: "#fff", background: B.verde, fontSize: 11, padding: "6px 8px", textAlign: "center", borderRight: `1px solid ${B.verdeM}`, fontWeight: 700, textTransform: "uppercase", whiteSpace: "nowrap" };
+  const tdS = { fontSize: 11, padding: "6px 8px", borderBottom: `1px solid ${B.linea}`, borderRight: `1px solid ${B.linea}`, textAlign: "center", color: B.texto };
+
+  return (
+    <div style={{ background: "#fff", borderRadius: 12, border: `1px solid ${B.linea}`, overflow: "hidden" }}>
+      <div style={{ background: B.verde, padding: "12px 20px" }}>
+        <div style={{ color: "#fff", fontWeight: 700, fontSize: 13 }}>CRONOGRAMA GANTT – LEVANTAMIENTO DE PROCESOS – LIBROS CONTABLES</div>
+        <div style={{ color: "#a8c9bb", fontSize: 11, marginTop: 2 }}>Junio – Agosto 2026 · 9 iniciativas · 10 semanas</div>
+      </div>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1000 }}>
+          <colgroup>
+            <col style={{ width: 36 }} /><col style={{ width: 28 }} />
+            <col style={{ width: 155 }} /><col style={{ width: 66 }} />
+            <col style={{ width: 80 }} /><col style={{ width: 80 }} />
+            <col style={{ width: 50 }} /><col style={{ width: 96 }} />
+            {SEMANAS.map((_,k) => <col key={k} style={{ minWidth: 56 }} />)}
+          </colgroup>
+          <thead>
+            <tr>
+              <th colSpan={8} style={{ ...thS, background: B.verde }} />
+              {mesesGrupos.map((mg, k) => (
+                <th key={k} colSpan={mg.count} style={{ ...thS, background: "#1d6ea8", borderLeft: "2px solid #154f7a" }}>{mg.mes}</th>
+              ))}
+            </tr>
+            <tr>
+              <th colSpan={8} style={{ ...thS }} />
+              {SEMANAS.map((s, k) => (
+                <th key={k} style={{ ...thS, background: "#235e8a", borderLeft: "1px solid #1d6ea8" }}>{s.label}</th>
+              ))}
+            </tr>
+            <tr>
+              {["Fase","N°","Iniciativa","Prioridad","F. Inicio","F. Fin","Días","Estado"].map(h => (
+                <th key={h} style={{ ...thS, background: "#2a6f9e" }}>{h}</th>
+              ))}
+              {SEMANAS.map((s, k) => {
+                const semStart = new Date(s.inicio + "T00:00:00");
+                const semEnd = new Date(semStart.getTime() + 7*86400000);
+                const esHoy = HOY >= semStart && HOY < semEnd;
+                return (
+                  <th key={k} style={{ ...thS, background: esHoy ? B.naranja : "#2a6f9e", borderLeft: "1px solid #235e8a" }}>
+                    {s.fecha}{esHoy && <span style={{ display: "block", fontSize: 9 }}>HOY</span>}
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {FILAS.map((fila, idx) => {
+              const esHito = fila.tipo_fila === "hito";
+              const rowBg = esHito ? "#fff5ee" : idx % 2 === 0 ? "#fff" : "#f7faf8";
+              return (
+                <tr key={fila.id} style={{ background: rowBg }}>
+                  <td style={{ ...tdS }}>{esHito ? "" : fila.fase}</td>
+                  <td style={{ ...tdS, color: B.textoSub }}>{esHito ? "" : fila.id}</td>
+                  <td style={{ ...tdS, textAlign: "left", fontWeight: 600, color: esHito ? B.naranja : B.texto, fontStyle: esHito ? "italic" : "normal" }}>{esHito ? fila.nombre : fila.iniciativa}</td>
+                  <td style={{ ...tdS }}>
+                    {!esHito && <span style={{ background: PRIO_COLOR[fila.prioridad]+"22", color: PRIO_COLOR[fila.prioridad], padding: "2px 6px", borderRadius: 99, fontSize: 10, fontWeight: 700 }}>{fila.prioridad}</span>}
+                  </td>
+                  <td style={{ ...tdS, color: B.textoSub }}>{fmtFecha(fila.inicio)}</td>
+                  <td style={{ ...tdS, color: B.textoSub }}>{fmtFecha(fila.fin)}</td>
+                  <td style={{ ...tdS, fontWeight: 600 }}>{fila.duracion}</td>
+                  <td style={{ ...tdS }}>
+                    {!esHito && <span style={{ background: COLOR_ESTADO[fila.estado]+"20", color: COLOR_ESTADO[fila.estado], padding: "2px 6px", borderRadius: 99, fontSize: 10, fontWeight: 700 }}>{fila.estado}</span>}
+                  </td>
+                  {SEMANAS.map((sem, si) => {
+                    const semStart = new Date(sem.inicio + "T00:00:00");
+                    const semEnd = new Date(semStart.getTime() + 7*86400000);
+                    const filaStart = new Date(fila.inicio + "T00:00:00");
+                    const filaEnd = new Date(fila.fin + "T00:00:00");
+                    const overlap = filaStart < semEnd && filaEnd > semStart;
+                    const isHoy = HOY >= semStart && HOY < semEnd;
+                    const barColor = esHito ? B.naranjaL : B.verdeM;
+                    return (
+                      <td key={si} style={{ padding: 0, position: "relative", height: 34, borderLeft: `1px solid ${B.linea}`, borderBottom: `1px solid ${B.linea}` }}>
+                        {isHoy && <div style={{ position: "absolute", top: 0, bottom: 0, left: `${((HOY - semStart)/(7*86400000))*100}%`, width: 4, background: "#ff4500", zIndex: 5, boxShadow: "0 0 6px rgba(232,99,26,0.7)" }} />}
+                        {overlap && (() => {
+                          const visStart = Math.max(filaStart, semStart);
+                          const visEnd = Math.min(filaEnd, semEnd);
+                          const lp = ((visStart - semStart)/(7*86400000))*100;
+                          const wp = Math.max(((visEnd - visStart)/(7*86400000))*100, 8);
+                          return <div style={{ position: "absolute", top: "18%", height: "64%", left: `${lp}%`, width: `${wp}%`, background: barColor, borderRadius: 3, opacity: 0.85 }} />;
+                        })()}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div style={{ display: "flex", gap: 20, padding: "10px 20px", borderTop: `1px solid ${B.linea}`, fontSize: 12, color: B.textoSub }}>
+        <span>🟩 Iniciativa</span><span>🟧 Hito de control</span><span>🔴 Hoy</span>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [vista, setVista] = useState("monitoreo");
+  return (
+    <div style={{ minHeight: "100vh", background: B.fondo }}>
+      <div style={{ background: B.naranja, height: 4 }} />
+      <header style={{ background: B.verde, position: "sticky", top: 0, zIndex: 30 }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 24px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16 }}>
+          <div style={{ marginRight: "auto" }}>
+            <div style={{ color: "#fff", fontWeight: 700, fontSize: 16 }}>Actualización de los Libros Contables - WIGO</div>
+            <div style={{ color: "#a8c9bb", fontSize: 12, marginTop: 2 }}>Seguimiento gerencial · Americar – Quiter · Corte 18 jun 2026</div>
+          </div>
+          <nav style={{ display: "flex", background: "rgba(255,255,255,0.12)", borderRadius: 8, padding: 4, gap: 4 }}>
+            {[["monitoreo","Monitoreo"],["gantt","Cronograma Gantt"]].map(([k,l]) => (
+              <button key={k} onClick={() => setVista(k)}
+                style={{ padding: "6px 16px", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
+                  background: vista === k ? B.naranja : "transparent", color: vista === k ? "#fff" : "#a8c9bb" }}>
+                {l}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </header>
+      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "24px" }}>
+        {vista === "monitoreo" ? <Monitoreo /> : <Gantt />}
+      </main>
+      <footer style={{ textAlign: "center", padding: "16px", borderTop: `1px solid ${B.linea}`, color: B.textoSub, fontSize: 12 }}>
+        <div style={{ fontWeight: 700, color: B.verde }}>Equipo de Transformación Digital</div>
+        <div>Elaborado por Osmaris Bolívar</div>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

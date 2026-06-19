@@ -1,333 +1,311 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Seguimiento Libros Contables – WIGO</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.1.9/Recharts.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.21.3/babel.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
-  <style>
-    body { margin: 0; font-family: Inter, system-ui, sans-serif; background: #f0f2f0; }
-    * { box-sizing: border-box; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Seguimiento Libros Contables – WIGO</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,sans-serif}
+body{background:#f0f2f0;color:#1a2e25}
+.verde{color:#1a4a3a}.bg-verde{background:#1a4a3a}.bg-verdeM{background:#2d6b54}
+.naranja{color:#e8631a}.bg-naranja{background:#e8631a}
+.linea{border-color:#d6e0da}.textoSub{color:#4a7060}
+header{background:#1a4a3a;position:sticky;top:0;z-index:30;padding:16px 24px}
+header h1{color:#fff;font-size:16px;font-weight:700}
+header p{color:#a8c9bb;font-size:12px;margin-top:2px}
+.accent-bar{background:#e8631a;height:4px}
+nav{display:flex;background:rgba(255,255,255,0.12);border-radius:8px;padding:4px;gap:4px;margin-top:10px;width:fit-content}
+nav button{padding:6px 16px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#a8c9bb;background:transparent;transition:all 0.2s}
+nav button.active{background:#e8631a;color:#fff}
+main{max-width:1200px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:20px}
+.card{background:#fff;border-radius:12px;border:1px solid #d6e0da;overflow:hidden}
+.card-header{background:#1a4a3a;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.card-header span{color:#fff;font-weight:700;font-size:13px}
+.card-header small{color:#a8c9bb;font-size:12px}
+.card-body{padding:20px}
+/* Barra avance */
+.progress-bar{display:flex;height:32px;border-radius:8px;overflow:hidden;border:1px solid #d6e0da}
+.progress-seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;font-size:12px;color:#4a7060}
+.legend span{display:flex;align-items:center;gap:6px}
+.dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+/* Barras sub estado */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar-label{font-size:11px;color:#4a7060;width:210px;flex-shrink:0;text-align:right}
+.bar-track{flex:1;background:#eaf0ec;border-radius:4px;height:26px;position:relative}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:#fff;font-weight:700;min-width:30px}
+.bar-count{font-size:12px;font-weight:700;color:#1a2e25;width:24px}
+/* Tabla */
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#1a4a3a;color:#fff;padding:8px 10px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.03em;white-space:nowrap;border-right:1px solid #2d6b54}
+td{padding:8px 10px;border-bottom:1px solid #d6e0da;border-right:1px solid #d6e0da;vertical-align:middle}
+tr:nth-child(even) td{background:#f7faf8}
+.badge{padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;white-space:nowrap}
+.badge-alta{background:#fde8d8;color:#b84a0e}
+.badge-media{background:#d5e8de;color:#1a4a3a}
+.badge-baja{background:#e4ede9;color:#4a7060}
+.badge-completado{background:#1a4a3a22;color:#1a4a3a}
+.badge-progreso{background:#e8631a22;color:#e8631a}
+.badge-iniciar{background:#8aaa9922;color:#8aaa99}
+.badge-quiter{background:#2d6b5422;color:#2d6b54}
+.badge-americar{background:#e8631a22;color:#e8631a}
+.badge-pendiente{background:#fde8d8;color:#b84a0e}
+.avance-track{width:60px;background:#d6e0da;border-radius:99px;height:6px}
+.avance-fill{height:100%;border-radius:99px}
+/* GANTT */
+.gantt-wrap{overflow-x:auto}
+.gantt-table{border-collapse:collapse;min-width:1000px;width:100%}
+.gantt-table th{background:#1a4a3a;color:#fff;font-size:10px;padding:5px 6px;text-align:center;border-right:1px solid #2d6b54;font-weight:700;text-transform:uppercase;white-space:nowrap}
+.gantt-table th.mes{background:#1d6ea8;border-left:2px solid #154f7a}
+.gantt-table th.sem{background:#235e8a;border-left:1px solid #1d6ea8}
+.gantt-table th.fecha{background:#2a6f9e;border-left:1px solid #235e8a;font-size:10px}
+.gantt-table th.hoy-col{background:#e8631a}
+.gantt-table td{padding:5px 6px;border-bottom:1px solid #d6e0da;border-right:1px solid #d6e0da;font-size:11px;text-align:center;white-space:nowrap;position:relative;height:34px}
+.gantt-table td.ini-name{text-align:left;font-weight:600}
+.gantt-bar{position:absolute;top:15%;height:70%;left:4%;width:92%;border-radius:4px}
+.gantt-bar.verde{background:#2d6b54}
+.gantt-bar.naranja-bar{background:#f07d3a}
+.hito-row td{background:#fff5ee!important;font-style:italic;color:#e8631a}
+footer{text-align:center;padding:16px;border-top:1px solid #d6e0da;font-size:12px;color:#4a7060;margin-top:8px}
+footer strong{color:#1a4a3a;display:block}
+.hidden{display:none}
+</style>
 </head>
 <body>
-  <div id="root"></div>
+<div class="accent-bar"></div>
+<header>
+  <h1>Actualización de los Libros Contables - WIGO</h1>
+  <p>Seguimiento gerencial · Americar – Quiter · Corte 18 jun 2026</p>
+  <nav>
+    <button class="active" onclick="showVista('monitoreo',this)">Monitoreo</button>
+    <button onclick="showVista('gantt',this)">Cronograma Gantt</button>
+  </nav>
+</header>
 
-<script type="text/babel">
-const { useState, useMemo } = React;
-const { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip: RTooltip, ResponsiveContainer, Cell } = Recharts;
+<main>
+<!-- ===== MONITOREO ===== -->
+<div id="vista-monitoreo">
 
+  <!-- Barra avance -->
+  <div class="card">
+    <div class="card-body">
+      <div style="display:flex;justify-content:space-between;margin-bottom:12px">
+        <span style="font-size:13px;font-weight:700;color:#1a4a3a">Avance del proyecto</span>
+        <span style="font-size:12px;color:#4a7060">9 iniciativas</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-seg" style="width:33%;background:#e8631a">33%</div>
+        <div class="progress-seg" style="width:67%;background:#8aaa99">67%</div>
+      </div>
+      <div class="legend">
+        <span><div class="dot" style="background:#e8631a"></div>EN PROGRESO · 3 (33%)</span>
+        <span><div class="dot" style="background:#8aaa99"></div>POR INICIAR · 6 (67%)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sub estado -->
+  <div class="card">
+    <div class="card-header"><span>Detalle por sub estado</span></div>
+    <div class="card-body">
+      <div class="bar-row">
+        <div class="bar-label">LEVANTAMIENTO DEL REQUERIMIENTO</div>
+        <div class="bar-track"><div class="bar-fill" style="width:22%;background:#e8631a">2</div></div>
+        <div class="bar-count">2</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">POR INICIAR</div>
+        <div class="bar-track"><div class="bar-fill" style="width:66%;background:#8aaa99">6</div></div>
+        <div class="bar-count">6</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">REVISIÓN QUITER</div>
+        <div class="bar-track"><div class="bar-fill" style="width:11%;background:#2d6b54">1</div></div>
+        <div class="bar-count">1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="card">
+    <div class="card-header"><span>Iniciativas · Detalle y seguimiento</span><small>9 libros y registros</small></div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Iniciativa</th><th>Objetivo</th><th>Prioridad</th>
+            <th>KeyUser</th><th>Sub estado</th><th>Acción</th><th>Responsable</th><th>% Avance</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GANTT ===== -->
+<div id="vista-gantt" class="hidden">
+  <div class="card">
+    <div class="card-header">
+      <span>CRONOGRAMA GANTT – LEVANTAMIENTO DE PROCESOS – LIBROS CONTABLES</span>
+      <small>Jun – Ago 2026 · 9 iniciativas · 10 semanas</small>
+    </div>
+    <div class="gantt-wrap">
+      <table class="gantt-table" id="gantt-table"></table>
+    </div>
+    <div class="legend" style="padding:10px 20px;border-top:1px solid #d6e0da">
+      <span><div class="dot" style="background:#2d6b54"></div>Iniciativa</span>
+      <span><div class="dot" style="background:#f07d3a"></div>Hito de control</span>
+      <span><div class="dot" style="background:#ff4500;width:6px;border-radius:2px"></div>Hoy</span>
+    </div>
+  </div>
+</div>
+</main>
+
+<footer><strong>Equipo de Transformación Digital</strong>Elaborado por Osmaris Bolívar</footer>
+
+<script>
 const INICIATIVAS = [
-  { id: 1, iniciativa: "Libro Diario", tipo: "Contabilidad", objetivo: 'Corregir los errores de formatos para que cumpla con el formato del sistema validador del PLE.', solucion: 'Pendiente', accion: 'Sesión de revisión con Quiter', accionResp: 'QUITER', prioridad: "Alta", keyuser: "Eris Gómez", responsable: "QUITER", estado: "COMPLETADO", subestado: "REVISIÓN QUITER", fase: 1, inicio: "2026-04-24", fin: "2026-06-02", duracion: 40, avance: 10 },
-  { id: 2, iniciativa: "Registro de Compra", tipo: "Contabilidad", objetivo: 'Actualizar el formato actual para que cumpla con el formato SIRE.', solucion: 'Pendiente', accion: 'Revisión de reportes generados en Quiter', accionResp: 'AMERICAR', prioridad: "Alta", keyuser: "Eris Gómez", responsable: "AMERICAR", estado: "EN PROGRESO", subestado: "LEVANTAMIENTO DEL REQUERIMIENTO", fase: 1, inicio: "2026-06-22", fin: "2026-06-26", duracion: 5, avance: 0 },
-  { id: 3, iniciativa: "Registro de Venta", tipo: "Contabilidad", objetivo: 'Actualizar el formato actual para que cumpla con el formato SIRE.', solucion: 'Pendiente', accion: 'Revisión de reportes generados en Quiter', accionResp: 'AMERICAR', prioridad: "Alta", keyuser: "Eris Gómez", responsable: "AMERICAR", estado: "EN PROGRESO", subestado: "LEVANTAMIENTO DEL REQUERIMIENTO", fase: 1, inicio: "2026-06-22", fin: "2026-06-26", duracion: 5, avance: 0 },
-  { id: 4, iniciativa: "Libro Mayor", tipo: "Contabilidad", objetivo: '', solucion: 'Pendiente', accion: 'Levantamiento de procesos', accionResp: 'AMERICAR', prioridad: "Media", keyuser: "Pendiente", responsable: "AMERICAR", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 1, inicio: "2026-06-22", fin: "2026-07-03", duracion: 12, avance: 0 },
-  { id: 5, iniciativa: "Libro Caja y Banco", tipo: "Contabilidad", objetivo: '', solucion: 'Pendiente', accion: 'Levantamiento de procesos', accionResp: 'AMERICAR', prioridad: "Media", keyuser: "Pendiente", responsable: "AMERICAR", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 1, inicio: "2026-07-01", fin: "2026-07-10", duracion: 10, avance: 0 },
-  { id: 6, iniciativa: "Libro de Inventario", tipo: "Inventario", objetivo: '', solucion: 'Pendiente', accion: '', accionResp: 'QUITER', prioridad: "Media", keyuser: "Pendiente", responsable: "QUITER", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 1, inicio: "2026-07-06", fin: "2026-07-17", duracion: 12, avance: 0 },
-  { id: 7, iniciativa: "Libro Activo Fijo", tipo: "Activos", objetivo: '', solucion: 'Pendiente', accion: '', accionResp: 'AMERICAR', prioridad: "Baja", keyuser: "Pendiente", responsable: "AMERICAR", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 1, inicio: "2026-07-13", fin: "2026-07-24", duracion: 12, avance: 0 },
-  { id: 8, iniciativa: "Inv. Permanente Vehículos", tipo: "Inventario", objetivo: '', solucion: 'Pendiente', accion: '', accionResp: 'QUITER', prioridad: "Baja", keyuser: "Pendiente", responsable: "QUITER", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 2, inicio: "2026-08-03", fin: "2026-08-14", duracion: 12, avance: 0 },
-  { id: 9, iniciativa: "Inv. Permanente Repuestos", tipo: "Inventario", objetivo: '', solucion: 'Pendiente', accion: '', accionResp: 'QUITER', prioridad: "Baja", keyuser: "Pendiente", responsable: "QUITER", estado: "POR INICIAR", subestado: "POR INICIAR", fase: 2, inicio: "2026-08-03", fin: "2026-08-14", duracion: 12, avance: 0 },
+  {id:1,iniciativa:"Libro Diario",objetivo:"Corregir los errores de formatos para que cumpla con el formato del sistema validador del PLE.",accion:"Sesión de revisión con Quiter",accionResp:"QUITER",prioridad:"Alta",keyuser:"Eris Gómez",estado:"EN PROGRESO",subestado:"REVISIÓN QUITER",fase:1,inicio:"2026-04-24",fin:"2026-06-02",duracion:40,avance:10},
+  {id:2,iniciativa:"Registro de Compra",objetivo:"Actualizar el formato actual para que cumpla con el formato SIRE.",accion:"Revisión de reportes generados en Quiter",accionResp:"AMERICAR",prioridad:"Alta",keyuser:"Eris Gómez",estado:"EN PROGRESO",subestado:"LEVANTAMIENTO DEL REQUERIMIENTO",fase:1,inicio:"2026-06-22",fin:"2026-06-26",duracion:5,avance:0},
+  {id:3,iniciativa:"Registro de Venta",objetivo:"Actualizar el formato actual para que cumpla con el formato SIRE.",accion:"Revisión de reportes generados en Quiter",accionResp:"AMERICAR",prioridad:"Alta",keyuser:"Eris Gómez",estado:"EN PROGRESO",subestado:"LEVANTAMIENTO DEL REQUERIMIENTO",fase:1,inicio:"2026-06-22",fin:"2026-06-26",duracion:5,avance:0},
+  {id:4,iniciativa:"Libro Mayor",objetivo:"",accion:"Levantamiento de procesos",accionResp:"AMERICAR",prioridad:"Media",keyuser:"Pendiente",estado:"POR INICIAR",subestado:"POR INICIAR",fase:1,inicio:"2026-06-22",fin:"2026-07-03",duracion:12,avance:0},
+  {id:5,iniciativa:"Libro Caja y Banco",objetivo:"",accion:"Levantamiento de procesos",accionResp:"AMERICAR",prioridad:"Media",keyuser:"Pendiente",estado:"POR INICIAR",subestado:"POR INICIAR",fase:1,inicio:"2026-07-01",fin:"2026-07-10",duracion:10,avance:0},
+  {id:6,iniciativa:"Libro de Inventario",objetivo:"",accion:"",accionResp:"QUITER",prioridad:"Media",keyuser:"Pendiente",estado:"POR INICIAR",subestado:"POR INICIAR",fase:1,inicio:"2026-07-06",fin:"2026-07-17",duracion:12,avance:0},
+  {id:7,iniciativa:"Libro Activo Fijo",objetivo:"",accion:"",accionResp:"AMERICAR",prioridad:"Baja",keyuser:"Pendiente",estado:"POR INICIAR",subestado:"POR INICIAR",fase:1,inicio:"2026-07-13",fin:"2026-07-24",duracion:12,avance:0},
+  {id:8,iniciativa:"Inv. Permanente Vehículos",objetivo:"",accion:"",accionResp:"QUITER",prioridad:"Baja",keyuser:"Pendiente",estado:"POR INICIAR",subestado:"POR INICIAR",fase:2,inicio:"2026-08-03",fin:"2026-08-14",duracion:12,avance:0},
+  {id:9,iniciativa:"Inv. Permanente Repuestos",objetivo:"",accion:"",accionResp:"QUITER",prioridad:"Baja",keyuser:"Pendiente",estado:"POR INICIAR",subestado:"POR INICIAR",fase:2,inicio:"2026-08-03",fin:"2026-08-14",duracion:12,avance:0},
 ];
 
 const HITOS = [
-  { nombre: "Control de avance · Fase 1", inicio: "2026-07-20", fin: "2026-07-31", fase: 1 },
-  { nombre: "Control de avance · Fase 2", inicio: "2026-08-17", fin: "2026-08-28", fase: 2 },
+  {nombre:"Control de avance · Fase 1",inicio:"2026-07-20",fin:"2026-07-31",fase:1,duracion:12},
+  {nombre:"Control de avance · Fase 2",inicio:"2026-08-17",fin:"2026-08-28",fase:2,duracion:12},
 ];
 
-const HOY = new Date("2026-06-18");
+const SEMANAS = [
+  {label:"S4",fecha:"22-06",inicio:"2026-06-22",mes:"JUNIO"},
+  {label:"S1",fecha:"01-07",inicio:"2026-07-01",mes:"JULIO"},
+  {label:"S2",fecha:"06-07",inicio:"2026-07-06",mes:"JULIO"},
+  {label:"S3",fecha:"13-07",inicio:"2026-07-13",mes:"JULIO"},
+  {label:"S4",fecha:"20-07",inicio:"2026-07-20",mes:"JULIO"},
+  {label:"S4",fecha:"27-07",inicio:"2026-07-27",mes:"JULIO"},
+  {label:"S1",fecha:"03-08",inicio:"2026-08-03",mes:"AGOSTO"},
+  {label:"S2",fecha:"10-08",inicio:"2026-08-10",mes:"AGOSTO"},
+  {label:"S3",fecha:"17-08",inicio:"2026-08-17",mes:"AGOSTO"},
+  {label:"S4",fecha:"24-08",inicio:"2026-08-24",mes:"AGOSTO"},
+];
 
-const B = {
-  verde: "#1a4a3a", verdeM: "#2d6b54", naranja: "#e8631a", naranjaL: "#f07d3a",
-  fondo: "#f0f2f0", linea: "#d6e0da", texto: "#1a2e25", textoSub: "#4a7060",
-};
+const HOY = new Date("2026-06-18T00:00:00");
 
-const COLOR_ESTADO = { "COMPLETADO": B.verde, "EN PROGRESO": B.naranja, "POR INICIAR": "#8aaa99" };
-const ORDEN_ESTADO = ["COMPLETADO", "EN PROGRESO", "POR INICIAR"];
-const COLOR_SUBESTADO = {
-  "COMPLETADO": B.verde, "REVISIÓN QUITER": B.verdeM,
-  "LEVANTAMIENTO DEL REQUERIMIENTO": B.naranja, "POR INICIAR": "#8aaa99",
-};
-const COLOR_PRIORIDAD = {
-  "Alta": { bg: "#fde8d8", fg: "#b84a0e" },
-  "Media": { bg: "#d5e8de", fg: B.verde },
-  "Baja": { bg: "#e4ede9", fg: B.textoSub },
-};
-
-const fmtFecha = (s) => new Date(s + "T00:00:00").toLocaleDateString("es-PE", { day: "2-digit", month: "short" });
-
-function BadgePrioridad({ p }) {
-  const c = COLOR_PRIORIDAD[p];
-  return <span style={{ background: c.bg, color: c.fg, padding: "2px 8px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>{p}</span>;
+function pBadge(p){
+  const m={Alta:"badge-alta",Media:"badge-media",Baja:"badge-baja"};
+  return `<span class="badge ${m[p]}">${p}</span>`;
 }
-function BadgeSub({ s }) {
-  return <span style={{ background: COLOR_SUBESTADO[s] + "1a", color: COLOR_SUBESTADO[s], padding: "2px 8px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>{s}</span>;
+function eBadge(e){
+  const m={"EN PROGRESO":"badge-progreso","POR INICIAR":"badge-iniciar","COMPLETADO":"badge-completado"};
+  return `<span class="badge ${m[e]||''}">${e}</span>`;
 }
-
-function Monitoreo() {
-  const porSub = useMemo(() => {
-    const m = {};
-    INICIATIVAS.forEach(i => m[i.subestado] = (m[i.subestado] || 0) + 1);
-    return Object.keys(COLOR_SUBESTADO).filter(s => m[s]).map(name => ({ name, value: m[name] }));
-  }, []);
-
-  const thS = { color: "#fff", background: B.verde, fontSize: 11, padding: "8px 10px", textAlign: "left", borderRight: `1px solid ${B.verdeM}`, fontWeight: 700, textTransform: "uppercase", whiteSpace: "nowrap" };
-  const tdS = { fontSize: 12, padding: "8px 10px", borderBottom: `1px solid ${B.linea}`, borderRight: `1px solid ${B.linea}` };
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      {/* Barra de avance */}
-      <div style={{ background: "#fff", borderRadius: 12, padding: 20, border: `1px solid ${B.linea}` }}>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: B.verde }}>Avance del proyecto</span>
-          <span style={{ fontSize: 12, color: B.textoSub }}>9 iniciativas</span>
-        </div>
-        <div style={{ display: "flex", height: 32, borderRadius: 8, overflow: "hidden", border: `1px solid ${B.linea}` }}>
-          <div style={{ width: "33%", background: COLOR_ESTADO["EN PROGRESO"], display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 12, fontWeight: 700 }}>33%</div>
-          <div style={{ width: "67%", background: COLOR_ESTADO["POR INICIAR"], display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: 12, fontWeight: 700 }}>67%</div>
-        </div>
-        <div style={{ display: "flex", gap: 20, marginTop: 10, fontSize: 12, color: B.textoSub }}>
-          <span>🟠 EN PROGRESO · 3 (33%)</span>
-          <span>⬜ POR INICIAR · 6 (67%)</span>
-        </div>
-      </div>
-
-      {/* Gráfico sub estado */}
-      <div style={{ background: "#fff", borderRadius: 12, padding: 20, border: `1px solid ${B.linea}` }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: B.verde, marginBottom: 4 }}>Detalle por sub estado</div>
-        <div style={{ fontSize: 12, color: B.textoSub, marginBottom: 12 }}>Fase operativa actual de cada iniciativa</div>
-        <ResponsiveContainer width="100%" height={200}>
-          <BarChart data={porSub} layout="vertical" margin={{ left: 10, right: 30 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#eaf0ec" horizontal={false} />
-            <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11 }} />
-            <YAxis type="category" dataKey="name" width={210} tick={{ fontSize: 11 }} />
-            <RTooltip />
-            <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={26} label={{ position: "right", fontSize: 12 }}>
-              {porSub.map(e => <Cell key={e.name} fill={COLOR_SUBESTADO[e.name]} />)}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-
-      {/* Tabla */}
-      <div style={{ background: "#fff", borderRadius: 12, border: `1px solid ${B.linea}`, overflow: "hidden" }}>
-        <div style={{ background: B.verde, padding: "12px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ color: "#fff", fontWeight: 700, fontSize: 13 }}>Iniciativas · Detalle y seguimiento</span>
-          <span style={{ color: "#a8c9bb", fontSize: 12 }}>9 libros y registros</span>
-        </div>
-        <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 900 }}>
-            <thead>
-              <tr>
-                {["#","Iniciativa","Objetivo","Prioridad","KeyUser","Sub estado","Acción","Responsable","% Avance"].map(h => (
-                  <th key={h} style={thS}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {INICIATIVAS.map((ini, idx) => (
-                <tr key={ini.id} style={{ background: idx % 2 === 0 ? "#fff" : "#f7faf8" }}>
-                  <td style={{ ...tdS, color: B.textoSub, fontWeight: 700, fontSize: 11 }}>{String(idx+1).padStart(2,"0")}</td>
-                  <td style={{ ...tdS, fontWeight: 600, whiteSpace: "nowrap" }}>{ini.iniciativa}</td>
-                  <td style={{ ...tdS, color: B.textoSub, maxWidth: 220, fontSize: 11 }}>
-                    {ini.objetivo || <span style={{ fontStyle: "italic", color: B.linea }}>Pendiente</span>}
-                  </td>
-                  <td style={{ ...tdS, textAlign: "center" }}><BadgePrioridad p={ini.prioridad} /></td>
-                  <td style={{ ...tdS, whiteSpace: "nowrap" }}>
-                    {ini.keyuser === "Pendiente"
-                      ? <span style={{ background: "#fde8d8", color: "#b84a0e", padding: "2px 8px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>Pendiente</span>
-                      : ini.keyuser}
-                  </td>
-                  <td style={tdS}><BadgeSub s={ini.subestado} /></td>
-                  <td style={{ ...tdS, fontSize: 11, color: B.textoSub }}>{ini.accion || "—"}</td>
-                  <td style={{ ...tdS, textAlign: "center" }}>
-                    <span style={{ background: ini.accionResp === "QUITER" ? B.verdeM+"22" : B.naranja+"22", color: ini.accionResp === "QUITER" ? B.verdeM : B.naranja, padding: "2px 8px", borderRadius: 99, fontSize: 11, fontWeight: 700 }}>
-                      {ini.accionResp}
-                    </span>
-                  </td>
-                  <td style={{ ...tdS, textAlign: "center" }}>
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
-                      <div style={{ width: 60, background: B.linea, borderRadius: 99, height: 6 }}>
-                        <div style={{ height: "100%", width: `${ini.avance}%`, background: ini.avance > 0 ? B.verde : "#d1dbd7", borderRadius: 99 }} />
-                      </div>
-                      <span style={{ fontSize: 11, fontWeight: 600, color: B.textoSub }}>{ini.avance}%</span>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
+function sBadge(s){
+  const m={"REVISIÓN QUITER":"badge-completado","LEVANTAMIENTO DEL REQUERIMIENTO":"badge-progreso","POR INICIAR":"badge-iniciar","COMPLETADO":"badge-completado"};
+  return `<span class="badge ${m[s]||''}">${s}</span>`;
+}
+function rBadge(r){
+  return `<span class="badge ${r==='QUITER'?'badge-quiter':'badge-americar'}">${r}</span>`;
 }
 
-function Gantt() {
-  const SEMANAS = [
-    { label: "S4", fecha: "22-06", inicio: "2026-06-22", mes: "JUNIO" },
-    { label: "S1", fecha: "01-07", inicio: "2026-07-01", mes: "JULIO" },
-    { label: "S2", fecha: "06-07", inicio: "2026-07-06", mes: "JULIO" },
-    { label: "S3", fecha: "13-07", inicio: "2026-07-13", mes: "JULIO" },
-    { label: "S4", fecha: "20-07", inicio: "2026-07-20", mes: "JULIO" },
-    { label: "S4", fecha: "27-07", inicio: "2026-07-27", mes: "JULIO" },
-    { label: "S1", fecha: "03-08", inicio: "2026-08-03", mes: "AGOSTO" },
-    { label: "S2", fecha: "10-08", inicio: "2026-08-10", mes: "AGOSTO" },
-    { label: "S3", fecha: "17-08", inicio: "2026-08-17", mes: "AGOSTO" },
-    { label: "S4", fecha: "24-08", inicio: "2026-08-24", mes: "AGOSTO" },
-  ];
+// Tabla
+const tb = document.getElementById("tabla-body");
+INICIATIVAS.forEach((ini,i)=>{
+  const avBg = ini.avance>0?"#1a4a3a":"#d1dbd7";
+  tb.innerHTML += `<tr>
+    <td style="color:#4a7060;font-weight:700">${String(i+1).padStart(2,'0')}</td>
+    <td class="ini-name">${ini.iniciativa}</td>
+    <td style="color:#4a7060;max-width:200px;white-space:normal;font-size:11px">${ini.objetivo||'<em style="color:#d6e0da">Pendiente</em>'}</td>
+    <td>${pBadge(ini.prioridad)}</td>
+    <td>${ini.keyuser==='Pendiente'?'<span class="badge badge-pendiente">Pendiente</span>':ini.keyuser}</td>
+    <td>${sBadge(ini.subestado)}</td>
+    <td style="color:#4a7060;font-size:11px">${ini.accion||'—'}</td>
+    <td>${rBadge(ini.accionResp)}</td>
+    <td style="text-align:center">
+      <div class="avance-track"><div class="avance-fill" style="width:${ini.avance}%;background:${avBg}"></div></div>
+      <span style="font-size:11px;font-weight:600;color:#4a7060">${ini.avance}%</span>
+    </td>
+  </tr>`;
+});
 
-  const mesesGrupos = SEMANAS.reduce((acc, s) => {
-    const last = acc[acc.length - 1];
-    if (last && last.mes === s.mes) last.count++;
-    else acc.push({ mes: s.mes, count: 1 });
-    return acc;
-  }, []);
+// Gantt
+function d(s){return new Date(s+"T00:00:00")}
+const gt = document.getElementById("gantt-table");
 
-  const FILAS = [
-    ...INICIATIVAS.filter(i => i.fase === 1).map(i => ({ ...i, tipo_fila: "iniciativa" })),
-    { tipo_fila: "hito", ...HITOS[0], id: "h1" },
-    ...INICIATIVAS.filter(i => i.fase === 2).map(i => ({ ...i, tipo_fila: "iniciativa" })),
-    { tipo_fila: "hito", ...HITOS[1], id: "h2" },
-  ];
+// Fila meses
+const meses=[];
+SEMANAS.forEach(s=>{
+  const last=meses[meses.length-1];
+  if(last&&last.mes===s.mes) last.count++;
+  else meses.push({mes:s.mes,count:1});
+});
+let html='<thead><tr><th colspan="8"></th>';
+meses.forEach(m=>{ html+=`<th colspan="${m.count}" class="mes">${m.mes}</th>`; });
+html+='</tr><tr><th colspan="8"></th>';
+SEMANAS.forEach(s=>{ html+=`<th class="sem">${s.label}</th>`; });
+html+='</tr><tr>';
+["Fase","N°","Iniciativa","Prioridad","F.Inicio","F.Fin","Días","Estado"].forEach(h=>{ html+=`<th class="fecha">${h}</th>`; });
+SEMANAS.forEach(s=>{
+  const ss=d(s.inicio), se=new Date(ss.getTime()+7*86400000);
+  const esHoy=HOY>=ss&&HOY<se;
+  html+=`<th class="fecha${esHoy?' hoy-col':''}">${s.fecha}${esHoy?'<br>HOY':''}</th>`;
+});
+html+='</tr></thead><tbody>';
 
-  const PRIO_COLOR = { "Alta": B.naranja, "Media": B.verdeM, "Baja": "#8aaa99" };
-  const thS = { color: "#fff", background: B.verde, fontSize: 11, padding: "6px 8px", textAlign: "center", borderRight: `1px solid ${B.verdeM}`, fontWeight: 700, textTransform: "uppercase", whiteSpace: "nowrap" };
-  const tdS = { fontSize: 11, padding: "6px 8px", borderBottom: `1px solid ${B.linea}`, borderRight: `1px solid ${B.linea}`, textAlign: "center", color: B.texto };
+const FILAS=[
+  ...INICIATIVAS.filter(i=>i.fase===1).map(i=>({...i,tipo:"ini"})),
+  {...HITOS[0],tipo:"hito",id:"h1"},
+  ...INICIATIVAS.filter(i=>i.fase===2).map(i=>({...i,tipo:"ini"})),
+  {...HITOS[1],tipo:"hito",id:"h2"},
+];
 
-  return (
-    <div style={{ background: "#fff", borderRadius: 12, border: `1px solid ${B.linea}`, overflow: "hidden" }}>
-      <div style={{ background: B.verde, padding: "12px 20px" }}>
-        <div style={{ color: "#fff", fontWeight: 700, fontSize: 13 }}>CRONOGRAMA GANTT – LEVANTAMIENTO DE PROCESOS – LIBROS CONTABLES</div>
-        <div style={{ color: "#a8c9bb", fontSize: 11, marginTop: 2 }}>Junio – Agosto 2026 · 9 iniciativas · 10 semanas</div>
-      </div>
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ borderCollapse: "collapse", width: "100%", minWidth: 1000 }}>
-          <colgroup>
-            <col style={{ width: 36 }} /><col style={{ width: 28 }} />
-            <col style={{ width: 155 }} /><col style={{ width: 66 }} />
-            <col style={{ width: 80 }} /><col style={{ width: 80 }} />
-            <col style={{ width: 50 }} /><col style={{ width: 96 }} />
-            {SEMANAS.map((_,k) => <col key={k} style={{ minWidth: 56 }} />)}
-          </colgroup>
-          <thead>
-            <tr>
-              <th colSpan={8} style={{ ...thS, background: B.verde }} />
-              {mesesGrupos.map((mg, k) => (
-                <th key={k} colSpan={mg.count} style={{ ...thS, background: "#1d6ea8", borderLeft: "2px solid #154f7a" }}>{mg.mes}</th>
-              ))}
-            </tr>
-            <tr>
-              <th colSpan={8} style={{ ...thS }} />
-              {SEMANAS.map((s, k) => (
-                <th key={k} style={{ ...thS, background: "#235e8a", borderLeft: "1px solid #1d6ea8" }}>{s.label}</th>
-              ))}
-            </tr>
-            <tr>
-              {["Fase","N°","Iniciativa","Prioridad","F. Inicio","F. Fin","Días","Estado"].map(h => (
-                <th key={h} style={{ ...thS, background: "#2a6f9e" }}>{h}</th>
-              ))}
-              {SEMANAS.map((s, k) => {
-                const semStart = new Date(s.inicio + "T00:00:00");
-                const semEnd = new Date(semStart.getTime() + 7*86400000);
-                const esHoy = HOY >= semStart && HOY < semEnd;
-                return (
-                  <th key={k} style={{ ...thS, background: esHoy ? B.naranja : "#2a6f9e", borderLeft: "1px solid #235e8a" }}>
-                    {s.fecha}{esHoy && <span style={{ display: "block", fontSize: 9 }}>HOY</span>}
-                  </th>
-                );
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {FILAS.map((fila, idx) => {
-              const esHito = fila.tipo_fila === "hito";
-              const rowBg = esHito ? "#fff5ee" : idx % 2 === 0 ? "#fff" : "#f7faf8";
-              return (
-                <tr key={fila.id} style={{ background: rowBg }}>
-                  <td style={{ ...tdS }}>{esHito ? "" : fila.fase}</td>
-                  <td style={{ ...tdS, color: B.textoSub }}>{esHito ? "" : fila.id}</td>
-                  <td style={{ ...tdS, textAlign: "left", fontWeight: 600, color: esHito ? B.naranja : B.texto, fontStyle: esHito ? "italic" : "normal" }}>{esHito ? fila.nombre : fila.iniciativa}</td>
-                  <td style={{ ...tdS }}>
-                    {!esHito && <span style={{ background: PRIO_COLOR[fila.prioridad]+"22", color: PRIO_COLOR[fila.prioridad], padding: "2px 6px", borderRadius: 99, fontSize: 10, fontWeight: 700 }}>{fila.prioridad}</span>}
-                  </td>
-                  <td style={{ ...tdS, color: B.textoSub }}>{fmtFecha(fila.inicio)}</td>
-                  <td style={{ ...tdS, color: B.textoSub }}>{fmtFecha(fila.fin)}</td>
-                  <td style={{ ...tdS, fontWeight: 600 }}>{fila.duracion}</td>
-                  <td style={{ ...tdS }}>
-                    {!esHito && <span style={{ background: COLOR_ESTADO[fila.estado]+"20", color: COLOR_ESTADO[fila.estado], padding: "2px 6px", borderRadius: 99, fontSize: 10, fontWeight: 700 }}>{fila.estado}</span>}
-                  </td>
-                  {SEMANAS.map((sem, si) => {
-                    const semStart = new Date(sem.inicio + "T00:00:00");
-                    const semEnd = new Date(semStart.getTime() + 7*86400000);
-                    const filaStart = new Date(fila.inicio + "T00:00:00");
-                    const filaEnd = new Date(fila.fin + "T00:00:00");
-                    const overlap = filaStart < semEnd && filaEnd > semStart;
-                    const isHoy = HOY >= semStart && HOY < semEnd;
-                    const barColor = esHito ? B.naranjaL : B.verdeM;
-                    return (
-                      <td key={si} style={{ padding: 0, position: "relative", height: 34, borderLeft: `1px solid ${B.linea}`, borderBottom: `1px solid ${B.linea}` }}>
-                        {isHoy && <div style={{ position: "absolute", top: 0, bottom: 0, left: `${((HOY - semStart)/(7*86400000))*100}%`, width: 4, background: "#ff4500", zIndex: 5, boxShadow: "0 0 6px rgba(232,99,26,0.7)" }} />}
-                        {overlap && (() => {
-                          const visStart = Math.max(filaStart, semStart);
-                          const visEnd = Math.min(filaEnd, semEnd);
-                          const lp = ((visStart - semStart)/(7*86400000))*100;
-                          const wp = Math.max(((visEnd - visStart)/(7*86400000))*100, 8);
-                          return <div style={{ position: "absolute", top: "18%", height: "64%", left: `${lp}%`, width: `${wp}%`, background: barColor, borderRadius: 3, opacity: 0.85 }} />;
-                        })()}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-      <div style={{ display: "flex", gap: 20, padding: "10px 20px", borderTop: `1px solid ${B.linea}`, fontSize: 12, color: B.textoSub }}>
-        <span>🟩 Iniciativa</span><span>🟧 Hito de control</span><span>🔴 Hoy</span>
-      </div>
-    </div>
-  );
+const fmtF=s=>d(s).toLocaleDateString("es-PE",{day:"2-digit",month:"short"});
+const PRIO_COLOR={Alta:"#e8631a",Media:"#2d6b54",Baja:"#8aaa99"};
+const EST_COLOR={"EN PROGRESO":"badge-progreso","POR INICIAR":"badge-iniciar","COMPLETADO":"badge-completado"};
+
+FILAS.forEach((fila,idx)=>{
+  const esHito=fila.tipo==="hito";
+  const rowClass=esHito?"hito-row":"";
+  const barColor=esHito?"naranja-bar":"verde";
+  const filaStart=d(fila.inicio), filaEnd=d(fila.fin);
+
+  html+=`<tr class="${rowClass}">`;
+  html+=`<td>${esHito?'':fila.fase}</td>`;
+  html+=`<td style="color:#4a7060">${esHito?'':fila.id}</td>`;
+  html+=`<td class="ini-name" style="${esHito?'color:#e8631a':''}">${esHito?fila.nombre:fila.iniciativa}</td>`;
+  html+=`<td>${esHito?'':(`<span class="badge" style="background:${PRIO_COLOR[fila.prioridad]}22;color:${PRIO_COLOR[fila.prioridad]}">${fila.prioridad}</span>`)}</td>`;
+  html+=`<td style="color:#4a7060">${fmtF(fila.inicio)}</td>`;
+  html+=`<td style="color:#4a7060">${fmtF(fila.fin)}</td>`;
+  html+=`<td style="font-weight:600">${fila.duracion}</td>`;
+  html+=`<td>${esHito?'':(`<span class="badge ${EST_COLOR[fila.estado]||''}">${fila.estado}</span>`)}</td>`;
+
+  SEMANAS.forEach(sem=>{
+    const ss=d(sem.inicio), se=new Date(ss.getTime()+7*86400000);
+    const overlap=filaStart<se&&filaEnd>ss;
+    const isHoy=HOY>=ss&&HOY<se;
+    const hoyLeft=isHoy?Math.round(((HOY-ss)/(7*86400000))*100):null;
+    html+=`<td style="padding:0;position:relative;min-width:56px">
+      ${overlap?`<div class="gantt-bar ${barColor}"></div>`:''}
+      ${isHoy?`<div style="position:absolute;top:0;bottom:0;left:${hoyLeft}%;width:4px;background:#ff4500;z-index:5;box-shadow:0 0 6px rgba(232,99,26,0.7)"></div>`:''}
+    </td>`;
+  });
+  html+='</tr>';
+});
+html+='</tbody>';
+gt.innerHTML=html;
+
+function showVista(v,btn){
+  document.getElementById("vista-monitoreo").classList.add("hidden");
+  document.getElementById("vista-gantt").classList.add("hidden");
+  document.getElementById("vista-"+v).classList.remove("hidden");
+  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
 }
-
-function App() {
-  const [vista, setVista] = useState("monitoreo");
-  return (
-    <div style={{ minHeight: "100vh", background: B.fondo }}>
-      <div style={{ background: B.naranja, height: 4 }} />
-      <header style={{ background: B.verde, position: "sticky", top: 0, zIndex: 30 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 24px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16 }}>
-          <div style={{ marginRight: "auto" }}>
-            <div style={{ color: "#fff", fontWeight: 700, fontSize: 16 }}>Actualización de los Libros Contables - WIGO</div>
-            <div style={{ color: "#a8c9bb", fontSize: 12, marginTop: 2 }}>Seguimiento gerencial · Americar – Quiter · Corte 18 jun 2026</div>
-          </div>
-          <nav style={{ display: "flex", background: "rgba(255,255,255,0.12)", borderRadius: 8, padding: 4, gap: 4 }}>
-            {[["monitoreo","Monitoreo"],["gantt","Cronograma Gantt"]].map(([k,l]) => (
-              <button key={k} onClick={() => setVista(k)}
-                style={{ padding: "6px 16px", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
-                  background: vista === k ? B.naranja : "transparent", color: vista === k ? "#fff" : "#a8c9bb" }}>
-                {l}
-              </button>
-            ))}
-          </nav>
-        </div>
-      </header>
-      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "24px" }}>
-        {vista === "monitoreo" ? <Monitoreo /> : <Gantt />}
-      </main>
-      <footer style={{ textAlign: "center", padding: "16px", borderTop: `1px solid ${B.linea}`, color: B.textoSub, fontSize: 12 }}>
-        <div style={{ fontWeight: 700, color: B.verde }}>Equipo de Transformación Digital</div>
-        <div>Elaborado por Osmaris Bolívar</div>
-      </footer>
-    </div>
-  );
-}
-
-ReactDOM.render(<App />, document.getElementById("root"));
 </script>
 </body>
 </html>

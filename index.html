@@ -287,9 +287,9 @@ SEMANAS.forEach(s=>{
 html+='</tr></thead><tbody>';
 
 const FILAS=[
-  ...INICIATIVAS.filter(i=>i.fase===1).map(i=>({...i,tipo:"ini"})),
+  ...INICIATIVAS.filter(i=>i.fase===1).map(i=>({...i,tipo:"ini",fin:i.fin})),
   {...HITOS[0],tipo:"hito",id:"h1"},
-  ...INICIATIVAS.filter(i=>i.fase===2).map(i=>({...i,tipo:"ini"})),
+  ...INICIATIVAS.filter(i=>i.fase===2).map(i=>({...i,tipo:"ini",fin:i.fin})),
   {...HITOS[1],tipo:"hito",id:"h2"},
 ];
 
@@ -316,7 +316,8 @@ FILAS.forEach((fila,idx)=>{
 
   SEMANAS.forEach(sem=>{
     const ss=d(sem.inicio),se=new Date(ss.getTime()+7*86400000);
-    const overlap=filaStart<se&&filaEnd>ss;
+    const filaEndInc=new Date(filaEnd.getTime()+86400000);
+    const overlap=filaStart<se&&filaEndInc>ss;
     const isHoy=HOY>=ss&&HOY<se;
     const hoyLeft=isHoy?Math.round(((HOY-ss)/(7*86400000))*100):null;
     html+=`<td style="padding:0;position:relative;min-width:56px">

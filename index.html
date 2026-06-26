@@ -41,15 +41,14 @@ tr:nth-child(even) td{background:#f7faf8}
 .badge-quiter{background:#2d6b5422;color:#2d6b54}
 .badge-americar{background:#e8631a22;color:#e8631a}
 .badge-pendiente{background:#f1f5f3;color:#8aaa99;font-style:italic}
-.badge-subestado{background:#1a4a3a18;color:#1a4a3a}
 .badge-levant{background:#e8631a18;color:#e8631a}
-.badge-valid{background:#1d6ea818;color:#1d6ea8}
+.badge-analisis{background:#1d6ea818;color:#1d6ea8}
+.badge-valid{background:#1a4a3a18;color:#1a4a3a}
 .badge-porinc{background:#8aaa9918;color:#8aaa99}
 .avance-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
 .avance-track{width:56px;background:#d6e0da;border-radius:99px;height:6px}
 .avance-fill{height:100%;border-radius:99px}
 .hidden{display:none}
-/* GANTT */
 .gantt-wrap{overflow-x:auto}
 .gantt-table{border-collapse:collapse;min-width:1000px;width:100%}
 .gantt-table th{background:#1a4a3a;color:#fff;font-size:10px;padding:5px 6px;text-align:center;border-right:1px solid #2d6b54;font-weight:700;text-transform:uppercase;white-space:nowrap}
@@ -71,7 +70,7 @@ footer strong{color:#1a4a3a;display:block}
 <div class="accent-bar"></div>
 <header>
   <h1>Actualización de los Libros Contables - WIGO</h1>
-  <p>Seguimiento gerencial · Americar – Quiter · Corte 18 jun 2026</p>
+  <p>Seguimiento gerencial · Americar – Quiter · Corte 22 jun 2026</p>
   <nav>
     <button class="active" onclick="showVista('monitoreo',this)">Monitoreo</button>
     <button onclick="showVista('gantt',this)">Cronograma Gantt</button>
@@ -79,10 +78,8 @@ footer strong{color:#1a4a3a;display:block}
 </header>
 
 <main>
-<!-- MONITOREO -->
 <div id="vista-monitoreo">
 
-  <!-- Barra avance -->
   <div class="card">
     <div class="card-body">
       <div style="display:flex;justify-content:space-between;margin-bottom:12px">
@@ -90,58 +87,48 @@ footer strong{color:#1a4a3a;display:block}
         <span style="font-size:12px;color:#4a7060">9 iniciativas</span>
       </div>
       <div class="progress-bar">
-        <div class="progress-seg" style="width:11%;background:#1d6ea8" title="Validación Producto Quiter · 1">11%</div>
-        <div class="progress-seg" style="width:33%;background:#e8631a" title="Levantamiento Procesos · 3">33%</div>
-        <div class="progress-seg" style="width:56%;background:#8aaa99" title="Por Iniciar · 5">56%</div>
+        <div class="progress-seg" style="width:11%;background:#1d6ea8">11%</div>
+        <div class="progress-seg" style="width:44%;background:#e8631a">44%</div>
+        <div class="progress-seg" style="width:45%;background:#8aaa99">45%</div>
       </div>
       <div class="legend">
-        <span><div class="dot" style="background:#1d6ea8"></div>Validación Producto Quiter · 1 (11%)</span>
-        <span><div class="dot" style="background:#e8631a"></div>Levantamiento de Procesos · 3 (33%)</span>
-        <span><div class="dot" style="background:#8aaa99"></div>Por Iniciar · 5 (56%)</span>
+        <span><div class="dot" style="background:#1d6ea8"></div>Análisis Quiter · 1 (11%)</span>
+        <span><div class="dot" style="background:#e8631a"></div>Levantamiento de Procesos · 4 (44%)</span>
+        <span><div class="dot" style="background:#8aaa99"></div>Por Iniciar · 4 (45%)</span>
       </div>
     </div>
   </div>
 
-  <!-- Sub estado -->
   <div class="card">
     <div class="card-header"><span>Detalle por sub estado</span></div>
     <div class="card-body">
       <div class="bar-row">
-        <div class="bar-label">Validación Producto Quiter</div>
+        <div class="bar-label">Análisis Quiter</div>
         <div class="bar-track"><div class="bar-fill" style="width:11%;background:#1d6ea8">1</div></div>
         <div class="bar-count">1</div>
       </div>
       <div class="bar-row">
         <div class="bar-label">Levantamiento de Procesos Americar</div>
-        <div class="bar-track"><div class="bar-fill" style="width:33%;background:#e8631a">3</div></div>
-        <div class="bar-count">3</div>
+        <div class="bar-track"><div class="bar-fill" style="width:44%;background:#e8631a">4</div></div>
+        <div class="bar-count">4</div>
       </div>
       <div class="bar-row">
         <div class="bar-label">Por Iniciar</div>
-        <div class="bar-track"><div class="bar-fill" style="width:56%;background:#8aaa99">5</div></div>
-        <div class="bar-count">5</div>
+        <div class="bar-track"><div class="bar-fill" style="width:44%;background:#8aaa99">4</div></div>
+        <div class="bar-count">4</div>
       </div>
     </div>
   </div>
 
-  <!-- Tabla -->
   <div class="card">
     <div class="card-header"><span>Iniciativas · Detalle y seguimiento</span><small>9 libros y registros</small></div>
     <div style="overflow-x:auto">
       <table>
         <thead>
           <tr>
-            <th>#</th>
-            <th>Iniciativa</th>
-            <th>Objetivo</th>
-            <th>Prioridad</th>
-            <th>Keyuser</th>
-            <th>Sub estado</th>
-            <th>Acción</th>
-            <th>F.Acción</th>
-            <th>Responsable</th>
-            <th>Desviaciones</th>
-            <th>% Avance</th>
+            <th>#</th><th>Iniciativa</th><th>Objetivo</th><th>Prioridad</th>
+            <th>Keyuser</th><th>Sub estado</th><th>Acción</th><th>F.Acción</th>
+            <th>Responsable</th><th>Desviaciones</th><th>% Avance</th>
           </tr>
         </thead>
         <tbody id="tabla-body"></tbody>
@@ -150,7 +137,6 @@ footer strong{color:#1a4a3a;display:block}
   </div>
 </div>
 
-<!-- GANTT -->
 <div id="vista-gantt" class="hidden">
   <div class="card">
     <div class="card-header">
@@ -187,13 +173,13 @@ const SUBESTADO_PCT = {
 };
 
 const INICIATIVAS = [
-  {id:1, iniciativa:"Libro Diario", objetivo:"Corregir los errores de formatos para que cumpla con el formato del sistema validador del PLE.", prioridad:"Alta", keyuser:"Mónica Velásquez", subestado:"Validación Producto Quiter", accion:"Sesión de revisión con Quiter", faccion:"Pendiente", responsable:"Quiter", desviaciones:"Pendiente", fase:1, inicio:"2026-04-24", fin:"2026-06-02", duracion:40},
-  {id:2, iniciativa:"Registro de Compra", objetivo:"Actualizar el formato actual para que cumpla con el formato SIRE.", prioridad:"Alta", keyuser:"Eris Gómez", subestado:"Levantamiento de Procesos Americar", accion:"Revisión de reportes generados en Quiter", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-06-22", fin:"2026-06-26", duracion:5},
-  {id:3, iniciativa:"Registro de Venta", objetivo:"Actualizar el formato actual para que cumpla con el formato SIRE.", prioridad:"Alta", keyuser:"Eris Gómez", subestado:"Levantamiento de Procesos Americar", accion:"Revisión de reportes generados en Quiter", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-06-22", fin:"2026-06-26", duracion:5},
-  {id:4, iniciativa:"Libro Mayor", objetivo:"Pendiente", prioridad:"Alta", keyuser:"Victoria Sierra", subestado:"Levantamiento de Procesos Americar", accion:"Workshops y documentación de procesos", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-06-22", fin:"2026-07-10", duracion:19},
-  {id:5, iniciativa:"Libro Caja y Banco", objetivo:"Pendiente", prioridad:"Media", keyuser:"Pendiente", subestado:"Por Iniciar", accion:"Levantamiento de procesos", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-07-01", fin:"2026-07-10", duracion:10},
-  {id:6, iniciativa:"Libro de Inventario", objetivo:"Pendiente", prioridad:"Media", keyuser:"Pendiente", subestado:"Por Iniciar", accion:"—", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-07-06", fin:"2026-07-17", duracion:12},
-  {id:7, iniciativa:"Libro Activo Fijo", objetivo:"Pendiente", prioridad:"Baja", keyuser:"Pendiente", subestado:"Por Iniciar", accion:"—", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-07-13", fin:"2026-07-24", duracion:12},
+  {id:1, iniciativa:"Libro Diario", objetivo:"Corregir los errores de formatos para que cumpla con el formato del sistema validador del PLE.", prioridad:"Media", keyuser:"Mónica Velásquez", subestado:"Análisis Quiter", accion:"Evaluación para modificar el formato del campo identificador", faccion:"Pendiente", responsable:"Quiter", desviaciones:"Pendiente", fase:1, inicio:"2026-04-24", fin:"2026-06-02", duracion:40},
+  {id:2, iniciativa:"Registro de Compra", objetivo:"Actualizar el formato actual para que cumpla con el formato SIRE.", prioridad:"Alta", keyuser:"Eris Gómez", subestado:"Levantamiento de Procesos Americar", accion:"Elaboración de macro", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-06-22", fin:"2026-06-26", duracion:5},
+  {id:3, iniciativa:"Registro de Venta", objetivo:"Actualizar el formato actual para que cumpla con el formato SIRE.", prioridad:"Alta", keyuser:"Eris Gómez", subestado:"Levantamiento de Procesos Americar", accion:"Elaboración de macro", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-06-22", fin:"2026-06-26", duracion:5},
+  {id:4, iniciativa:"Libro Mayor", objetivo:"Pendiente", prioridad:"Baja", keyuser:"Victoria Sierra", subestado:"Levantamiento de Procesos Americar", accion:"Revisión y validación con la SUNAT", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-06-22", fin:"2026-07-10", duracion:19},
+  {id:5, iniciativa:"Libro Caja y Banco", objetivo:"Pendiente", prioridad:"Alta", keyuser:"Victoria Sierra", subestado:"Levantamiento de Procesos Americar", accion:"Registro de errores en la matriz", faccion:"03/07", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-07-01", fin:"2026-07-10", duracion:10},
+  {id:6, iniciativa:"Libro de Inventario", objetivo:"Pendiente", prioridad:"Alta", keyuser:"Eris Gómez", subestado:"Por Iniciar", accion:"—", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-07-06", fin:"2026-07-17", duracion:12},
+  {id:7, iniciativa:"Libro Activo Fijo", objetivo:"Pendiente", prioridad:"Alta", keyuser:"Eris Gómez", subestado:"Por Iniciar", accion:"—", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-07-13", fin:"2026-07-24", duracion:12},
   {id:8, iniciativa:"Inv. Permanente Vehículos", objetivo:"Pendiente", prioridad:"Baja", keyuser:"Eris Gómez", subestado:"Por Iniciar", accion:"—", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:2, inicio:"2026-08-03", fin:"2026-08-14", duracion:12},
   {id:9, iniciativa:"Inv. Permanente Repuestos", objetivo:"Pendiente", prioridad:"Baja", keyuser:"Pendiente", subestado:"Por Iniciar", accion:"—", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:2, inicio:"2026-08-03", fin:"2026-08-14", duracion:12},
 ];
@@ -216,7 +202,7 @@ const SEMANAS = [
   {label:"S4",fecha:"24-08",inicio:"2026-08-24",mes:"AGOSTO"},
 ];
 
-const HOY = new Date("2026-06-18T00:00:00");
+const HOY = new Date("2026-06-22T00:00:00");
 
 function pBadge(p){
   const m={Alta:"badge-alta",Media:"badge-media",Baja:"badge-baja"};
@@ -224,9 +210,9 @@ function pBadge(p){
 }
 function subBadge(s){
   const sl=s.toLowerCase();
-  let cls="badge-subestado";
+  let cls="badge-valid";
   if(sl.includes("levantamiento")) cls="badge-levant";
-  else if(sl.includes("validación")) cls="badge-valid";
+  else if(sl.includes("análisis")) cls="badge-analisis";
   else if(sl.includes("por iniciar")) cls="badge-porinc";
   return `<span class="badge ${cls}">${s}</span>`;
 }
@@ -234,11 +220,10 @@ function rBadge(r){
   return `<span class="badge ${r.toLowerCase()==='quiter'?'badge-quiter':'badge-americar'}">${r}</span>`;
 }
 function pendBadge(v){
-  if(!v||v==="Pendiente"||v==="—") return `<span class="badge badge-pendiente">Pendiente</span>`;
+  if(!v||v==="Pendiente") return `<span class="badge badge-pendiente">Pendiente</span>`;
   return `<span style="font-size:11px;color:#1a2e25">${v}</span>`;
 }
 
-// Tabla
 const tb = document.getElementById("tabla-body");
 INICIATIVAS.forEach((ini,i)=>{
   const pct = SUBESTADO_PCT[ini.subestado.toLowerCase()] ?? 0;
@@ -250,7 +235,7 @@ INICIATIVAS.forEach((ini,i)=>{
     <td style="text-align:center">${pBadge(ini.prioridad)}</td>
     <td style="white-space:nowrap">${ini.keyuser==="Pendiente"?`<span class="badge badge-pendiente">Pendiente</span>`:ini.keyuser}</td>
     <td>${subBadge(ini.subestado)}</td>
-    <td style="color:#4a7060;font-size:11px;max-width:160px;white-space:normal">${ini.accion==="—"?"—":ini.accion}</td>
+    <td style="color:#4a7060;font-size:11px;max-width:180px;white-space:normal">${ini.accion==="—"?"—":ini.accion}</td>
     <td style="text-align:center">${pendBadge(ini.faccion)}</td>
     <td style="text-align:center">${rBadge(ini.responsable)}</td>
     <td style="text-align:center">${pendBadge(ini.desviaciones)}</td>
@@ -263,7 +248,6 @@ INICIATIVAS.forEach((ini,i)=>{
   </tr>`;
 });
 
-// Gantt
 function d(s){return new Date(s+"T00:00:00");}
 const gt = document.getElementById("gantt-table");
 const meses=[];
@@ -287,22 +271,20 @@ SEMANAS.forEach(s=>{
 html+='</tr></thead><tbody>';
 
 const FILAS=[
-  ...INICIATIVAS.filter(i=>i.fase===1).map(i=>({...i,tipo:"ini",fin:i.fin})),
+  ...INICIATIVAS.filter(i=>i.fase===1).map(i=>({...i,tipo:"ini"})),
   {...HITOS[0],tipo:"hito",id:"h1"},
-  ...INICIATIVAS.filter(i=>i.fase===2).map(i=>({...i,tipo:"ini",fin:i.fin})),
+  ...INICIATIVAS.filter(i=>i.fase===2).map(i=>({...i,tipo:"ini"})),
   {...HITOS[1],tipo:"hito",id:"h2"},
 ];
 
 const fmtF=s=>d(s).toLocaleDateString("es-PE",{day:"2-digit",month:"short"});
 const PRIO_C={Alta:"#e8631a",Media:"#2d6b54",Baja:"#8aaa99"};
 
-FILAS.forEach((fila,idx)=>{
+FILAS.forEach((fila)=>{
   const esHito=fila.tipo==="hito";
   const barColor=esHito?"naranja-bar":"verde";
   const filaStart=d(fila.inicio),filaEnd=d(fila.fin);
   const pct=esHito?0:(SUBESTADO_PCT[fila.subestado?.toLowerCase()]??0);
-  const estLabel=esHito?"":fila.subestado;
-  const estColor=esHito?"":"#1a4a3a";
 
   html+=`<tr class="${esHito?'hito-row':''}">`;
   html+=`<td style="text-align:center">${esHito?"":fila.fase}</td>`;
@@ -312,7 +294,7 @@ FILAS.forEach((fila,idx)=>{
   html+=`<td style="color:#4a7060;text-align:center">${fmtF(fila.inicio)}</td>`;
   html+=`<td style="color:#4a7060;text-align:center">${fmtF(fila.fin)}</td>`;
   html+=`<td style="font-weight:600;text-align:center">${fila.duracion}</td>`;
-  html+=`<td style="text-align:center">${esHito?"":(`<span class="badge" style="background:${estColor}18;color:${estColor};font-size:10px">${estLabel}</span>`)}</td>`;
+  html+=`<td style="text-align:center">${esHito?"":(`<span class="badge" style="background:#1a4a3a18;color:#1a4a3a;font-size:10px">${fila.subestado}</span>`)}</td>`;
 
   SEMANAS.forEach(sem=>{
     const ss=d(sem.inicio),se=new Date(ss.getTime()+7*86400000);

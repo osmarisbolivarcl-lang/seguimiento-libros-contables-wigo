@@ -3,329 +3,300 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Seguimiento Libros Contables – WIGO</title>
+<title>Seguimiento Libros Contables - WIGO</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,sans-serif}
-body{background:#f0f2f0;color:#1a2e25}
-.accent-bar{background:#e8631a;height:4px}
-header{background:#1a4a3a;position:sticky;top:0;z-index:30;padding:16px 24px}
-header h1{color:#fff;font-size:16px;font-weight:700}
-header p{color:#a8c9bb;font-size:12px;margin-top:2px}
-nav{display:flex;background:rgba(255,255,255,0.12);border-radius:8px;padding:4px;gap:4px;margin-top:10px;width:fit-content}
-nav button{padding:6px 16px;border-radius:6px;border:none;cursor:pointer;font-size:13px;font-weight:600;color:#a8c9bb;background:transparent;transition:all 0.2s}
-nav button.active{background:#e8631a;color:#fff}
-main{max-width:1400px;margin:0 auto;padding:24px;display:flex;flex-direction:column;gap:20px}
-.card{background:#fff;border-radius:12px;border:1px solid #d6e0da;overflow:hidden}
-.card-header{background:#1a4a3a;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
-.card-header span{color:#fff;font-weight:700;font-size:13px}
-.card-header small{color:#a8c9bb;font-size:12px}
-.card-body{padding:20px}
-.progress-bar{display:flex;height:32px;border-radius:8px;overflow:hidden;border:1px solid #d6e0da}
-.progress-seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
-.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;font-size:12px;color:#4a7060}
-.legend span{display:flex;align-items:center;gap:6px}
-.dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
-.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.bar-label{font-size:11px;color:#4a7060;width:240px;flex-shrink:0;text-align:right}
-.bar-track{flex:1;background:#eaf0ec;border-radius:4px;height:26px}
-.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:#fff;font-weight:700;min-width:30px}
-.bar-count{font-size:12px;font-weight:700;color:#1a2e25;width:24px}
-table{width:100%;border-collapse:collapse;font-size:11px}
-th{background:#1a4a3a;color:#fff;padding:8px 8px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:0.03em;white-space:nowrap;border-right:1px solid #2d6b54}
-td{padding:7px 8px;border-bottom:1px solid #d6e0da;border-right:1px solid #d6e0da;vertical-align:middle}
-tr:nth-child(even) td{background:#f7faf8}
-.badge{padding:2px 7px;border-radius:99px;font-size:10px;font-weight:700;white-space:nowrap}
-.badge-alta{background:#fde8d8;color:#b84a0e}
-.badge-media{background:#d5e8de;color:#1a4a3a}
-.badge-baja{background:#e4ede9;color:#4a7060}
-.badge-quiter{background:#2d6b5422;color:#2d6b54}
-.badge-americar{background:#e8631a22;color:#e8631a}
-.badge-pendiente{background:#f1f5f3;color:#8aaa99;font-style:italic}
-.badge-levant{background:#e8631a18;color:#e8631a}
-.badge-analisis{background:#1d6ea818;color:#1d6ea8}
-.badge-completado{background:#1a4a3a22;color:#1a4a3a}
-.badge-porinc{background:#8aaa9918;color:#8aaa99}
-.avance-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
-.avance-track{width:56px;background:#d6e0da;border-radius:99px;height:6px}
-.avance-fill{height:100%;border-radius:99px}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f0f2f0;color:#1a2e25;font-size:13px}
+.accent{background:#e8631a;height:4px}
+header{background:#1a4a3a;padding:16px 24px}
+header h1{color:#fff;font-size:15px;font-weight:bold;margin-bottom:4px}
+header p{color:#a8c9bb;font-size:11px}
+.nav{display:flex;gap:6px;margin-top:10px}
+.nav button{padding:6px 14px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-weight:bold;background:rgba(255,255,255,0.15);color:#a8c9bb}
+.nav button.active{background:#e8631a;color:#fff}
+main{max-width:1400px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:16px}
+.card{background:#fff;border-radius:10px;border:1px solid #d6e0da;overflow:hidden}
+.ch{background:#1a4a3a;padding:10px 18px;display:flex;justify-content:space-between;align-items:center}
+.ch span{color:#fff;font-weight:bold;font-size:12px}
+.ch small{color:#a8c9bb;font-size:11px}
+.cb{padding:16px}
+.pbar{display:flex;height:28px;border-radius:6px;overflow:hidden;border:1px solid #d6e0da;margin-bottom:10px}
+.pseg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:bold}
+.leg{display:flex;flex-wrap:wrap;gap:14px;font-size:11px;color:#4a7060}
+.leg span{display:flex;align-items:center;gap:5px}
+.dot{width:11px;height:11px;border-radius:3px;flex-shrink:0;display:inline-block}
+.brow{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.blbl{font-size:11px;color:#4a7060;width:230px;flex-shrink:0;text-align:right}
+.btrk{flex:1;background:#eaf0ec;border-radius:4px;height:24px}
+.bfil{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:#fff;font-weight:bold;min-width:28px}
+.bcnt{font-size:12px;font-weight:bold;width:20px;text-align:right}
+.tbl{width:100%;border-collapse:collapse;font-size:11px}
+.tbl th{background:#1a4a3a;color:#fff;padding:7px 8px;text-align:left;font-size:10px;text-transform:uppercase;border-right:1px solid #2d6b54;white-space:nowrap}
+.tbl td{padding:6px 8px;border-bottom:1px solid #d6e0da;border-right:1px solid #d6e0da;vertical-align:middle}
+.tbl tr:nth-child(even) td{background:#f7faf8}
+.b{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:bold;white-space:nowrap}
+.b-alta{background:#fde8d8;color:#b84a0e}
+.b-media{background:#d5e8de;color:#1a4a3a}
+.b-baja{background:#e4ede9;color:#4a7060}
+.b-q{background:#2d6b5422;color:#2d6b54}
+.b-a{background:#e8631a22;color:#e8631a}
+.b-pend{background:#f1f5f3;color:#8aaa99;font-style:italic}
+.b-lev{background:#e8631a18;color:#e8631a}
+.b-ana{background:#1d6ea818;color:#1d6ea8}
+.b-comp{background:#1a4a3a22;color:#1a4a3a}
+.b-ini{background:#8aaa9918;color:#8aaa99}
+.atrk{width:54px;background:#d6e0da;border-radius:20px;height:5px;margin:0 auto 2px}
+.afil{height:100%;border-radius:20px}
 .hidden{display:none}
-.gantt-wrap{overflow-x:auto}
-.gantt-table{border-collapse:collapse;min-width:1000px;width:100%}
-.gantt-table th{background:#1a4a3a;color:#fff;font-size:10px;padding:5px 6px;text-align:center;border-right:1px solid #2d6b54;font-weight:700;text-transform:uppercase;white-space:nowrap}
-.gantt-table th.mes{background:#1d6ea8;border-left:2px solid #154f7a}
-.gantt-table th.sem{background:#235e8a;border-left:1px solid #1d6ea8}
-.gantt-table th.fecha{background:#2a6f9e;border-left:1px solid #235e8a}
-.gantt-table th.hoy-col{background:#e8631a}
-.gantt-table td{padding:5px 6px;border-bottom:1px solid #d6e0da;border-right:1px solid #d6e0da;font-size:11px;text-align:center;white-space:nowrap;position:relative;height:34px}
-.gantt-table td.ini-name{text-align:left;font-weight:600}
-.gantt-bar{position:absolute;top:15%;height:70%;left:4%;width:92%;border-radius:4px}
-.gantt-bar.verde{background:#2d6b54}
-.gantt-bar.completado-bar{background:#1a4a3a}
-.gantt-bar.naranja-bar{background:#f07d3a}
-.hito-row td{background:#fff5ee!important;font-style:italic;color:#e8631a}
-footer{text-align:center;padding:16px;border-top:1px solid #d6e0da;font-size:12px;color:#4a7060;margin-top:8px}
-footer strong{color:#1a4a3a;display:block}
+/* GANTT */
+.gwrap{overflow-x:auto}
+.gt{border-collapse:collapse;min-width:900px;width:100%}
+.gt th{background:#1a4a3a;color:#fff;font-size:10px;padding:5px 5px;text-align:center;border-right:1px solid #2d6b54;font-weight:bold;text-transform:uppercase;white-space:nowrap}
+.gt th.gm{background:#1d6ea8;border-left:2px solid #154f7a}
+.gt th.gs{background:#235e8a}
+.gt th.gf{background:#2a6f9e}
+.gt th.ghoy{background:#e8631a}
+.gt td{padding:4px 5px;border-bottom:1px solid #d6e0da;border-right:1px solid #d6e0da;font-size:11px;text-align:center;white-space:nowrap;position:relative;height:32px}
+.gt td.gn{text-align:left;font-weight:bold}
+.gbar{position:absolute;top:16%;height:68%;left:3%;width:94%;border-radius:3px}
+.hrow td{background:#fff5ee!important;font-style:italic;color:#e8631a}
+footer{text-align:center;padding:14px;border-top:1px solid #d6e0da;font-size:11px;color:#4a7060;margin-top:6px}
+footer strong{color:#1a4a3a;display:block;margin-bottom:2px}
 </style>
 </head>
 <body>
-<div class="accent-bar"></div>
+<div class="accent"></div>
 <header>
-  <h1>Actualización de los Libros Contables - WIGO</h1>
-  <p>Seguimiento gerencial · Americar – Quiter · Corte 06 jul 2026</p>
-  <nav>
-    <button class="active" onclick="showVista('monitoreo',this)">Monitoreo</button>
-    <button onclick="showVista('gantt',this)">Cronograma Gantt</button>
-  </nav>
+  <h1>Actualizacion de los Libros Contables - WIGO</h1>
+  <p>Seguimiento gerencial · Americar - Quiter · Corte 06 jul 2026</p>
+  <div class="nav">
+    <button class="active" onclick="show('mon',this)">Monitoreo</button>
+    <button onclick="show('gan',this)">Cronograma Gantt</button>
+  </div>
 </header>
 
 <main>
-<div id="vista-monitoreo">
+  <div id="v-mon">
+    <div style="display:flex;flex-direction:column;gap:16px">
 
-  <div class="card">
-    <div class="card-body">
-      <div style="display:flex;justify-content:space-between;margin-bottom:12px">
-        <span style="font-size:13px;font-weight:700;color:#1a4a3a">Avance del proyecto · Promedio: 22%</span>
-        <span style="font-size:12px;color:#4a7060">9 iniciativas</span>
+      <!-- avance -->
+      <div class="card">
+        <div class="cb">
+          <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+            <span style="font-weight:bold;color:#1a4a3a">Avance del proyecto &middot; Promedio: 22%</span>
+            <span style="color:#4a7060;font-size:11px">9 iniciativas</span>
+          </div>
+          <div class="pbar">
+            <div class="pseg" style="width:11%;background:#1a4a3a">11%</div>
+            <div class="pseg" style="width:11%;background:#1d6ea8">11%</div>
+            <div class="pseg" style="width:56%;background:#e8631a">56%</div>
+            <div class="pseg" style="width:22%;background:#8aaa99">22%</div>
+          </div>
+          <div class="leg">
+            <span><i class="dot" style="background:#1a4a3a"></i>Completado &middot; 1</span>
+            <span><i class="dot" style="background:#1d6ea8"></i>Analisis Quiter &middot; 1</span>
+            <span><i class="dot" style="background:#e8631a"></i>Levantamiento de Procesos &middot; 5</span>
+            <span><i class="dot" style="background:#8aaa99"></i>Por Iniciar &middot; 2</span>
+          </div>
+        </div>
       </div>
-      <div class="progress-bar">
-        <div class="progress-seg" style="width:11%;background:#1a4a3a">11%</div>
-        <div class="progress-seg" style="width:11%;background:#1d6ea8">11%</div>
-        <div class="progress-seg" style="width:56%;background:#e8631a">56%</div>
-        <div class="progress-seg" style="width:22%;background:#8aaa99">22%</div>
+
+      <!-- sub estado -->
+      <div class="card">
+        <div class="ch"><span>Detalle por sub estado</span></div>
+        <div class="cb">
+          <div class="brow"><div class="blbl">Completado</div><div class="btrk"><div class="bfil" style="width:11%;background:#1a4a3a">1</div></div><div class="bcnt">1</div></div>
+          <div class="brow"><div class="blbl">Analisis Quiter</div><div class="btrk"><div class="bfil" style="width:11%;background:#1d6ea8">1</div></div><div class="bcnt">1</div></div>
+          <div class="brow"><div class="blbl">Levantamiento de Procesos Americar</div><div class="btrk"><div class="bfil" style="width:56%;background:#e8631a">5</div></div><div class="bcnt">5</div></div>
+          <div class="brow"><div class="blbl">Por Iniciar</div><div class="btrk"><div class="bfil" style="width:22%;background:#8aaa99">2</div></div><div class="bcnt">2</div></div>
+        </div>
       </div>
-      <div class="legend">
-        <span><div class="dot" style="background:#1a4a3a"></div>Completado · 1 (11%)</span>
-        <span><div class="dot" style="background:#1d6ea8"></div>Análisis Quiter · 1 (11%)</span>
-        <span><div class="dot" style="background:#e8631a"></div>Levantamiento de Procesos · 5 (56%)</span>
-        <span><div class="dot" style="background:#8aaa99"></div>Por Iniciar · 2 (22%)</span>
+
+      <!-- tabla -->
+      <div class="card">
+        <div class="ch"><span>Iniciativas &middot; Detalle y seguimiento</span><small>9 libros y registros</small></div>
+        <div style="overflow-x:auto">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>#</th><th>Iniciativa</th><th>Objetivo</th><th>Prioridad</th>
+                <th>Keyuser</th><th>Sub estado</th><th>Accion</th><th>F.Accion</th>
+                <th>Responsable</th><th>Desviaciones</th><th>% Avance</th>
+              </tr>
+            </thead>
+            <tbody id="tb"></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header"><span>Detalle por sub estado</span></div>
-    <div class="card-body">
-      <div class="bar-row">
-        <div class="bar-label">Completado</div>
-        <div class="bar-track"><div class="bar-fill" style="width:11%;background:#1a4a3a">1</div></div>
-        <div class="bar-count">1</div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Análisis Quiter</div>
-        <div class="bar-track"><div class="bar-fill" style="width:11%;background:#1d6ea8">1</div></div>
-        <div class="bar-count">1</div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Levantamiento de Procesos Americar</div>
-        <div class="bar-track"><div class="bar-fill" style="width:56%;background:#e8631a">5</div></div>
-        <div class="bar-count">5</div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Por Iniciar</div>
-        <div class="bar-track"><div class="bar-fill" style="width:22%;background:#8aaa99">2</div></div>
-        <div class="bar-count">2</div>
+  <div id="v-gan" class="hidden">
+    <div class="card">
+      <div class="ch"><span>Cronograma Gantt - Libros Contables</span><small>Jun - Ago 2026 · 10 semanas</small></div>
+      <div class="gwrap"><table class="gt" id="gt"></table></div>
+      <div class="leg" style="padding:8px 16px;border-top:1px solid #d6e0da">
+        <span><i class="dot" style="background:#2d6b54"></i>Iniciativa</span>
+        <span><i class="dot" style="background:#f07d3a"></i>Hito</span>
+        <span><i class="dot" style="background:#ff4500;width:5px;border-radius:2px"></i>Hoy</span>
       </div>
     </div>
   </div>
-
-  <div class="card">
-    <div class="card-header"><span>Iniciativas · Detalle y seguimiento</span><small>9 libros y registros</small></div>
-    <div style="overflow-x:auto">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th><th>Iniciativa</th><th>Objetivo</th><th>Prioridad</th>
-            <th>Keyuser</th><th>Sub estado</th><th>Acción</th><th>F.Acción</th>
-            <th>Responsable</th><th>Desviaciones</th><th>% Avance</th>
-          </tr>
-        </thead>
-        <tbody id="tabla-body"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<div id="vista-gantt" class="hidden">
-  <div class="card">
-    <div class="card-header">
-      <span>Cronograma Gantt – Levantamiento de Procesos – Libros Contables</span>
-      <small>Jun – Ago 2026 · 9 iniciativas · 10 semanas</small>
-    </div>
-    <div class="gantt-wrap">
-      <table class="gantt-table" id="gantt-table"></table>
-    </div>
-    <div class="legend" style="padding:10px 20px;border-top:1px solid #d6e0da">
-      <span><div class="dot" style="background:#2d6b54"></div>Iniciativa</span>
-      <span><div class="dot" style="background:#f07d3a"></div>Hito de control</span>
-      <span><div class="dot" style="background:#ff4500;width:6px;border-radius:2px"></div>Hoy</span>
-    </div>
-  </div>
-</div>
 </main>
 
-<footer><strong>Equipo de Transformación Digital</strong>Elaborado por Osmaris Bolívar</footer>
+<footer><strong>Equipo de Transformacion Digital</strong>Elaborado por Osmaris Bolivar</footer>
 
 <script>
-const SUBESTADO_PCT = {
-  "levantamiento de procesos americar": 10,
-  "ficha de requerimiento americar": 20,
-  "validación producto quiter": 30,
-  "análisis quiter": 40,
-  "aceptación americar": 50,
-  "desarrollo quiter": 60,
-  "pruebas internas quiter": 70,
-  "pruebas solución americar": 80,
-  "cierre quiter": 90,
-  "subida paquete quiter": 100,
-  "completado": 100,
-  "por iniciar": 0,
+var PCT = {
+  "levantamiento de procesos americar":10,
+  "ficha de requerimiento americar":20,
+  "validacion producto quiter":30,
+  "analisis quiter":40,
+  "aceptacion americar":50,
+  "desarrollo quiter":60,
+  "pruebas internas quiter":70,
+  "pruebas solucion americar":80,
+  "cierre quiter":90,
+  "subida paquete quiter":100,
+  "completado":100,
+  "por iniciar":0
 };
 
-const INICIATIVAS = [
-  {id:1, iniciativa:"Libro Diario", objetivo:"Corregir los errores de formatos para que cumpla con el formato del sistema validador del PLE.", prioridad:"Media", keyuser:"Mónica Velásquez", subestado:"Análisis Quiter", accion:"Evaluación para modificar el formato del campo identificador", faccion:"Pendiente", responsable:"Quiter", desviaciones:"Pendiente", fase:1, inicio:"2026-04-24", fin:"2026-06-02", duracion:40},
-  {id:2, iniciativa:"Registro de Compra", objetivo:"Actualizar el formato actual para que cumpla con el formato SIRE.", prioridad:"Alta", keyuser:"Eris Gómez", subestado:"Levantamiento de Procesos Americar", accion:"Elaboración de macro", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-06-22", fin:"2026-06-26", duracion:5},
-  {id:3, iniciativa:"Registro de Venta", objetivo:"Actualizar el formato actual para que cumpla con el formato SIRE.", prioridad:"Alta", keyuser:"Eris Gómez", subestado:"Levantamiento de Procesos Americar", accion:"Elaboración de macro", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-06-22", fin:"2026-06-26", duracion:5},
-  {id:4, iniciativa:"Libro Mayor", objetivo:"Pendiente", prioridad:"Baja", keyuser:"Eris Gómez", subestado:"Completado", accion:"Se validó con la SUNAT que el libro diario es válido como Libro Mayor, por lo tanto se puede cargar este documento y cumplir con la normativa vigente.", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-06-22", fin:"2026-07-10", duracion:19},
-  {id:5, iniciativa:"Libro Caja y Banco", objetivo:"Identificar errores de formatos y procesos en Quiter.", prioridad:"Alta", keyuser:"Victoria Sierra", subestado:"Levantamiento de Procesos Americar", accion:"Ficha de requerimiento", faccion:"08/07", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-07-01", fin:"2026-07-10", duracion:10},
-  {id:6, iniciativa:"Libro de Inventario", objetivo:"Identificar errores de formatos y procesos en Quiter.", prioridad:"Alta", keyuser:"Eris Gómez", subestado:"Levantamiento de Procesos Americar", accion:"Levantamiento de Procesos Americar", faccion:"09/07", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-07-06", fin:"2026-07-17", duracion:12},
-  {id:7, iniciativa:"Libro Activo Fijo", objetivo:"Identificar errores de formatos y procesos en Quiter.", prioridad:"Alta", keyuser:"Victoria Sierra", subestado:"Levantamiento de Procesos Americar", accion:"Levantamiento de procesos", faccion:"08/07", responsable:"Americar", desviaciones:"Pendiente", fase:1, inicio:"2026-07-13", fin:"2026-07-24", duracion:12},
-  {id:8, iniciativa:"Inv. Permanente Vehículos", objetivo:"Pendiente", prioridad:"Baja", keyuser:"Eris Gómez", subestado:"Por Iniciar", accion:"—", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:2, inicio:"2026-08-03", fin:"2026-08-14", duracion:12},
-  {id:9, iniciativa:"Inv. Permanente Repuestos", objetivo:"Pendiente", prioridad:"Baja", keyuser:"Pendiente", subestado:"Por Iniciar", accion:"—", faccion:"Pendiente", responsable:"Americar", desviaciones:"Pendiente", fase:2, inicio:"2026-08-03", fin:"2026-08-14", duracion:12},
+var INI = [
+  {id:1,ini:"Libro Diario",obj:"Corregir los errores de formatos para que cumpla con el formato del sistema validador del PLE.",pri:"Media",ku:"Monica Velasquez",sub:"Analisis Quiter",acc:"Evaluacion para modificar el formato del campo identificador",fac:"Pendiente",res:"Quiter",des:"Pendiente",fase:1,ini_d:"2026-04-24",fin_d:"2026-06-02",dur:40},
+  {id:2,ini:"Registro de Compra",obj:"Actualizar el formato actual para que cumpla con el formato SIRE.",pri:"Alta",ku:"Eris Gomez",sub:"Levantamiento de Procesos Americar",acc:"Elaboracion de macro",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-06-22",fin_d:"2026-06-26",dur:5},
+  {id:3,ini:"Registro de Venta",obj:"Actualizar el formato actual para que cumpla con el formato SIRE.",pri:"Alta",ku:"Eris Gomez",sub:"Levantamiento de Procesos Americar",acc:"Elaboracion de macro",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-06-22",fin_d:"2026-06-26",dur:5},
+  {id:4,ini:"Libro Mayor",obj:"Pendiente",pri:"Baja",ku:"Eris Gomez",sub:"Completado",acc:"Se valido con la SUNAT que el libro diario es valido como Libro Mayor, por lo tanto se puede cargar este documento y cumplir con la normativa vigente.",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-06-22",fin_d:"2026-07-10",dur:19},
+  {id:5,ini:"Libro Caja y Banco",obj:"Identificar errores de formatos y procesos en Quiter.",pri:"Alta",ku:"Victoria Sierra",sub:"Levantamiento de Procesos Americar",acc:"Ficha de requerimiento",fac:"08/07",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-07-01",fin_d:"2026-07-10",dur:10},
+  {id:6,ini:"Libro de Inventario",obj:"Identificar errores de formatos y procesos en Quiter.",pri:"Alta",ku:"Eris Gomez",sub:"Levantamiento de Procesos Americar",acc:"Levantamiento de Procesos Americar",fac:"09/07",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-07-06",fin_d:"2026-07-17",dur:12},
+  {id:7,ini:"Libro Activo Fijo",obj:"Identificar errores de formatos y procesos en Quiter.",pri:"Alta",ku:"Victoria Sierra",sub:"Levantamiento de Procesos Americar",acc:"Levantamiento de procesos",fac:"08/07",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-07-13",fin_d:"2026-07-24",dur:12},
+  {id:8,ini:"Inv. Permanente Vehiculos",obj:"Pendiente",pri:"Baja",ku:"Eris Gomez",sub:"Por Iniciar",acc:"-",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:2,ini_d:"2026-08-03",fin_d:"2026-08-14",dur:12},
+  {id:9,ini:"Inv. Permanente Repuestos",obj:"Pendiente",pri:"Baja",ku:"Pendiente",sub:"Por Iniciar",acc:"-",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:2,ini_d:"2026-08-03",fin_d:"2026-08-14",dur:12}
 ];
 
-const HITOS = [
-  {nombre:"Control de avance · Fase 1", inicio:"2026-07-20", fin:"2026-07-31", fase:1, duracion:12},
-  {nombre:"Control de avance · Fase 2", inicio:"2026-08-17", fin:"2026-08-28", fase:2, duracion:12},
+var SEMS = [
+  {l:"S4",f:"22-06",d:"2026-06-22",m:"JUNIO"},
+  {l:"S1",f:"01-07",d:"2026-07-01",m:"JULIO"},
+  {l:"S2",f:"06-07",d:"2026-07-06",m:"JULIO"},
+  {l:"S3",f:"13-07",d:"2026-07-13",m:"JULIO"},
+  {l:"S4",f:"20-07",d:"2026-07-20",m:"JULIO"},
+  {l:"S5",f:"27-07",d:"2026-07-27",m:"JULIO"},
+  {l:"S1",f:"03-08",d:"2026-08-03",m:"AGOSTO"},
+  {l:"S2",f:"10-08",d:"2026-08-10",m:"AGOSTO"},
+  {l:"S3",f:"17-08",d:"2026-08-17",m:"AGOSTO"},
+  {l:"S4",f:"24-08",d:"2026-08-24",m:"AGOSTO"}
 ];
 
-const SEMANAS = [
-  {label:"S4",fecha:"22-06",inicio:"2026-06-22",mes:"JUNIO"},
-  {label:"S1",fecha:"01-07",inicio:"2026-07-01",mes:"JULIO"},
-  {label:"S2",fecha:"06-07",inicio:"2026-07-06",mes:"JULIO"},
-  {label:"S3",fecha:"13-07",inicio:"2026-07-13",mes:"JULIO"},
-  {label:"S4",fecha:"20-07",inicio:"2026-07-20",mes:"JULIO"},
-  {label:"S4",fecha:"27-07",inicio:"2026-07-27",mes:"JULIO"},
-  {label:"S1",fecha:"03-08",inicio:"2026-08-03",mes:"AGOSTO"},
-  {label:"S2",fecha:"10-08",inicio:"2026-08-10",mes:"AGOSTO"},
-  {label:"S3",fecha:"17-08",inicio:"2026-08-17",mes:"AGOSTO"},
-  {label:"S4",fecha:"24-08",inicio:"2026-08-24",mes:"AGOSTO"},
+var HITOS = [
+  {nombre:"Control de avance Fase 1",ini_d:"2026-07-20",fin_d:"2026-07-31",fase:1,dur:12},
+  {nombre:"Control de avance Fase 2",ini_d:"2026-08-17",fin_d:"2026-08-28",fase:2,dur:12}
 ];
 
-const HOY = new Date("2026-07-06T00:00:00");
+var HOY = new Date("2026-07-06");
 
-function pBadge(p){
-  const m={Alta:"badge-alta",Media:"badge-media",Baja:"badge-baja"};
-  return `<span class="badge ${m[p]||''}">${p}</span>`;
+function dd(s){return new Date(s);}
+function pb(p){var m={Alta:"b-alta",Media:"b-media",Baja:"b-baja"};return '<span class="b '+m[p]+'">'+p+'</span>';}
+function sb(s){var sl=s.toLowerCase();var c="b-lev";if(sl.indexOf("completado")>=0)c="b-comp";else if(sl.indexOf("analisis")>=0||sl.indexOf("análisis")>=0)c="b-ana";else if(sl.indexOf("por iniciar")>=0)c="b-ini";return '<span class="b '+c+'">'+s+'</span>';}
+function rb(r){return '<span class="b '+(r.toLowerCase()==="quiter"?"b-q":"b-a")+'">'+r+'</span>';}
+function pnd(v){if(!v||v==="Pendiente")return '<span class="b b-pend">Pendiente</span>';return '<span>'+v+'</span>';}
+
+// Tabla
+var tb = document.getElementById("tb");
+var html = "";
+for(var i=0;i<INI.length;i++){
+  var x = INI[i];
+  var sl = x.sub.toLowerCase().replace(/á/g,"a").replace(/é/g,"e").replace(/í/g,"i").replace(/ó/g,"o").replace(/ú/g,"u");
+  var pct = PCT[sl] !== undefined ? PCT[sl] : 0;
+  var abg = pct===100?"#1a4a3a":pct>0?"#2d6b54":"#d1dbd7";
+  html += "<tr>";
+  html += "<td style='text-align:center;color:#4a7060;font-weight:bold'>"+("0"+(i+1)).slice(-2)+"</td>";
+  html += "<td style='font-weight:bold;white-space:nowrap'>"+x.ini+"</td>";
+  html += "<td style='color:#4a7060;max-width:170px;white-space:normal'>"+(x.obj==="Pendiente"?'<span class="b b-pend">Pendiente</span>':x.obj)+"</td>";
+  html += "<td style='text-align:center'>"+pb(x.pri)+"</td>";
+  html += "<td style='white-space:nowrap'>"+(x.ku==="Pendiente"?'<span class="b b-pend">Pendiente</span>':x.ku)+"</td>";
+  html += "<td>"+sb(x.sub)+"</td>";
+  html += "<td style='color:#4a7060;max-width:190px;white-space:normal'>"+(x.acc==="-"?"-":x.acc)+"</td>";
+  html += "<td style='text-align:center'>"+pnd(x.fac)+"</td>";
+  html += "<td style='text-align:center'>"+rb(x.res)+"</td>";
+  html += "<td style='text-align:center'>"+pnd(x.des)+"</td>";
+  html += "<td style='text-align:center'><div class='atrk'><div class='afil' style='width:"+pct+"%;background:"+abg+"'></div></div><div style='font-size:10px;font-weight:bold;color:"+(pct>0?"#1a4a3a":"#8aaa99")+"'>"+pct+"%</div></td>";
+  html += "</tr>";
 }
-function subBadge(s){
-  const sl=s.toLowerCase();
-  let cls="badge-levant";
-  if(sl.includes("completado")) cls="badge-completado";
-  else if(sl.includes("análisis")) cls="badge-analisis";
-  else if(sl.includes("por iniciar")) cls="badge-porinc";
-  return `<span class="badge ${cls}">${s}</span>`;
-}
-function rBadge(r){
-  return `<span class="badge ${r.toLowerCase()==='quiter'?'badge-quiter':'badge-americar'}">${r}</span>`;
-}
-function pendBadge(v){
-  if(!v||v==="Pendiente") return `<span class="badge badge-pendiente">Pendiente</span>`;
-  return `<span style="font-size:11px;color:#1a2e25">${v}</span>`;
+tb.innerHTML = html;
+
+// Gantt
+var meses=[];
+for(var i=0;i<SEMS.length;i++){
+  var s=SEMS[i];
+  if(meses.length>0&&meses[meses.length-1].m===s.m)meses[meses.length-1].c++;
+  else meses.push({m:s.m,c:1});
 }
 
-const tb = document.getElementById("tabla-body");
-INICIATIVAS.forEach((ini,i)=>{
-  const pct = SUBESTADO_PCT[ini.subestado.toLowerCase()] ?? 0;
-  const avBg = pct===100?"#1a4a3a":pct>=50?"#2d6b54":pct>0?"#4a8a6a":"#d1dbd7";
-  tb.innerHTML += `<tr>
-    <td style="color:#4a7060;font-weight:700;text-align:center">${String(i+1).padStart(2,'0')}</td>
-    <td style="font-weight:600;white-space:nowrap">${ini.iniciativa}</td>
-    <td style="color:#4a7060;max-width:180px;white-space:normal;font-size:11px">${ini.objetivo==="Pendiente"?`<span class="badge badge-pendiente">Pendiente</span>`:ini.objetivo}</td>
-    <td style="text-align:center">${pBadge(ini.prioridad)}</td>
-    <td style="white-space:nowrap">${ini.keyuser==="Pendiente"?`<span class="badge badge-pendiente">Pendiente</span>`:ini.keyuser}</td>
-    <td>${subBadge(ini.subestado)}</td>
-    <td style="color:#4a7060;font-size:11px;max-width:200px;white-space:normal">${ini.accion==="—"?"—":ini.accion}</td>
-    <td style="text-align:center">${pendBadge(ini.faccion)}</td>
-    <td style="text-align:center">${rBadge(ini.responsable)}</td>
-    <td style="text-align:center">${pendBadge(ini.desviaciones)}</td>
-    <td style="text-align:center">
-      <div class="avance-wrap">
-        <div class="avance-track"><div class="avance-fill" style="width:${pct}%;background:${avBg}"></div></div>
-        <span style="font-size:11px;font-weight:700;color:${pct>0?'#1a4a3a':'#8aaa99'}">${pct}%</span>
-      </div>
-    </td>
-  </tr>`;
-});
+var gh="<thead><tr><th colspan='8'></th>";
+for(var i=0;i<meses.length;i++)gh+="<th colspan='"+meses[i].c+"' class='gm'>"+meses[i].m+"</th>";
+gh+="</tr><tr><th colspan='8'></th>";
+for(var i=0;i<SEMS.length;i++)gh+="<th class='gs'>"+SEMS[i].l+"</th>";
+gh+="</tr><tr>";
+var hds=["Fase","N","Iniciativa","Prioridad","F.Inicio","F.Fin","Dias","Estado"];
+for(var i=0;i<hds.length;i++)gh+="<th class='gf'>"+hds[i]+"</th>";
+for(var i=0;i<SEMS.length;i++){
+  var ss=dd(SEMS[i].d);
+  var se=new Date(ss.getTime()+7*86400000);
+  var eh=HOY>=ss&&HOY<se;
+  gh+="<th class='gf"+(eh?" ghoy":"")+"'>"+SEMS[i].f+(eh?"<br>HOY":"")+"</th>";
+}
+gh+="</tr></thead><tbody>";
 
-function d(s){return new Date(s+"T00:00:00");}
-const gt = document.getElementById("gantt-table");
-const meses=[];
-SEMANAS.forEach(s=>{
-  const last=meses[meses.length-1];
-  if(last&&last.mes===s.mes) last.count++;
-  else meses.push({mes:s.mes,count:1});
-});
+function fmtD(s){var d=new Date(s);var ms=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];return ("0"+d.getDate()).slice(-2)+"-"+ms[d.getMonth()];}
 
-let html='<thead><tr><th colspan="8"></th>';
-meses.forEach(m=>{html+=`<th colspan="${m.count}" class="mes">${m.mes}</th>`;});
-html+='</tr><tr><th colspan="8"></th>';
-SEMANAS.forEach(s=>{html+=`<th class="sem">${s.label}</th>`;});
-html+='</tr><tr>';
-["Fase","N°","Iniciativa","Prioridad","F.Inicio","F.Fin","Días","Estado"].forEach(h=>{html+=`<th class="fecha">${h}</th>`;});
-SEMANAS.forEach(s=>{
-  const ss=d(s.inicio),se=new Date(ss.getTime()+7*86400000);
-  const esHoy=HOY>=ss&&HOY<se;
-  html+=`<th class="fecha${esHoy?' hoy-col':''}">${s.fecha}${esHoy?'<br>HOY':''}</th>`;
-});
-html+='</tr></thead><tbody>';
+var fase1 = INI.filter(function(x){return x.fase===1;});
+var fase2 = INI.filter(function(x){return x.fase===2;});
+var FILAS = fase1.concat([{tipo:"h",nombre:HITOS[0].nombre,ini_d:HITOS[0].ini_d,fin_d:HITOS[0].fin_d,dur:HITOS[0].dur,fase:1}]).concat(fase2).concat([{tipo:"h",nombre:HITOS[1].nombre,ini_d:HITOS[1].ini_d,fin_d:HITOS[1].fin_d,dur:HITOS[1].dur,fase:2}]);
 
-const FILAS=[
-  ...INICIATIVAS.filter(i=>i.fase===1).map(i=>({...i,tipo:"ini"})),
-  {...HITOS[0],tipo:"hito",id:"h1"},
-  ...INICIATIVAS.filter(i=>i.fase===2).map(i=>({...i,tipo:"ini"})),
-  {...HITOS[1],tipo:"hito",id:"h2"},
-];
+for(var i=0;i<FILAS.length;i++){
+  var f=FILAS[i];
+  var eh=f.tipo==="h";
+  var ec=!eh&&f.sub&&f.sub.toLowerCase()==="completado";
+  var bc=eh?"#f07d3a":ec?"#1a4a3a":"#2d6b54";
+  var fs=dd(f.ini_d);
+  var fe=dd(f.fin_d);
+  var feI=new Date(fe.getTime()+86400000);
+  var sl=(!eh&&f.sub)?f.sub.toLowerCase().replace(/á/g,"a").replace(/é/g,"e").replace(/í/g,"i").replace(/ó/g,"o").replace(/ú/g,"u"):"";
+  var pct=eh?0:(PCT[sl]!==undefined?PCT[sl]:0);
+  var pc={Alta:"#e8631a",Media:"#2d6b54",Baja:"#8aaa99"};
 
-const fmtF=s=>d(s).toLocaleDateString("es-PE",{day:"2-digit",month:"short"});
-const PRIO_C={Alta:"#e8631a",Media:"#2d6b54",Baja:"#8aaa99"};
+  gh+="<tr class='"+(eh?"hrow":"")+"'>";
+  gh+="<td>"+(eh?"":f.fase)+"</td>";
+  gh+="<td style='color:#4a7060'>"+(eh?"":f.id)+"</td>";
+  gh+="<td class='gn' style='"+(eh?"color:#e8631a":ec?"text-decoration:line-through":"")+"'>"+(eh?f.nombre:f.ini)+"</td>";
+  gh+="<td style='text-align:center'>"+(eh?"":("<span class='b' style='background:"+pc[f.pri]+"22;color:"+pc[f.pri]+"'>"+f.pri+"</span>"))+"</td>";
+  gh+="<td style='color:#4a7060'>"+fmtD(f.ini_d)+"</td>";
+  gh+="<td style='color:#4a7060'>"+fmtD(f.fin_d)+"</td>";
+  gh+="<td style='font-weight:bold'>"+f.dur+"</td>";
+  gh+="<td>"+(eh?"":("<span class='b "+(ec?"b-comp":"b-lev")+"' style='font-size:10px'>"+(ec?"Completado":f.sub)+"</span>"))+"</td>";
 
-FILAS.forEach((fila)=>{
-  const esHito=fila.tipo==="hito";
-  const esComp=!esHito&&fila.subestado.toLowerCase()==="completado";
-  const barColor=esHito?"naranja-bar":esComp?"completado-bar":"verde";
-  const filaStart=d(fila.inicio),filaEnd=d(fila.fin);
+  for(var j=0;j<SEMS.length;j++){
+    var ss=dd(SEMS[j].d);
+    var se=new Date(ss.getTime()+7*86400000);
+    var ov=fs<se&&feI>ss;
+    var ih=HOY>=ss&&HOY<se;
+    var hl=ih?Math.round(((HOY-ss)/(7*86400000))*100):0;
+    gh+="<td style='padding:0;position:relative;min-width:52px'>";
+    if(ov)gh+="<div class='gbar' style='background:"+bc+"'></div>";
+    if(ih)gh+="<div style='position:absolute;top:0;bottom:0;left:"+hl+"%;width:3px;background:#ff4500;z-index:5'></div>";
+    gh+="</td>";
+  }
+  gh+="</tr>";
+}
+gh+="</tbody>";
+document.getElementById("gt").innerHTML=gh;
 
-  html+=`<tr class="${esHito?'hito-row':''}">`;
-  html+=`<td style="text-align:center">${esHito?"":fila.fase}</td>`;
-  html+=`<td style="color:#4a7060;text-align:center">${esHito?"":fila.id}</td>`;
-  html+=`<td class="ini-name" style="${esHito?'color:#e8631a':esComp?'color:#1a4a3a;text-decoration:line-through':''}">${esHito?fila.nombre:fila.iniciativa}</td>`;
-  html+=`<td style="text-align:center">${esHito?"":(`<span class="badge" style="background:${PRIO_C[fila.prioridad]}22;color:${PRIO_C[fila.prioridad]}">${fila.prioridad}</span>`)}</td>`;
-  html+=`<td style="color:#4a7060;text-align:center">${fmtF(fila.inicio)}</td>`;
-  html+=`<td style="color:#4a7060;text-align:center">${fmtF(fila.fin)}</td>`;
-  html+=`<td style="font-weight:600;text-align:center">${fila.duracion}</td>`;
-  html+=`<td style="text-align:center">${esHito?"":(`<span class="badge ${esComp?'badge-completado':'badge-levant'}" style="font-size:10px">${fila.subestado}</span>`)}</td>`;
-
-  SEMANAS.forEach(sem=>{
-    const ss=d(sem.inicio),se=new Date(ss.getTime()+7*86400000);
-    const filaEndInc=new Date(filaEnd.getTime()+86400000);
-    const overlap=filaStart<se&&filaEndInc>ss;
-    const isHoy=HOY>=ss&&HOY<se;
-    const hoyLeft=isHoy?Math.round(((HOY-ss)/(7*86400000))*100):null;
-    html+=`<td style="padding:0;position:relative;min-width:56px">
-      ${overlap?`<div class="gantt-bar ${barColor}"></div>`:""}
-      ${isHoy?`<div style="position:absolute;top:0;bottom:0;left:${hoyLeft}%;width:4px;background:#ff4500;z-index:5;box-shadow:0 0 6px rgba(232,99,26,0.7)"></div>`:""}
-    </td>`;
-  });
-  html+="</tr>";
-});
-html+="</tbody>";
-gt.innerHTML=html;
-
-function showVista(v,btn){
-  document.getElementById("vista-monitoreo").classList.add("hidden");
-  document.getElementById("vista-gantt").classList.add("hidden");
-  document.getElementById("vista-"+v).classList.remove("hidden");
-  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+function show(v,btn){
+  document.getElementById("v-mon").classList.add("hidden");
+  document.getElementById("v-gan").classList.add("hidden");
+  document.getElementById("v-"+v).classList.remove("hidden");
+  var btns=document.querySelectorAll(".nav button");
+  for(var i=0;i<btns.length;i++)btns[i].classList.remove("active");
   btn.classList.add("active");
 }
 </script>

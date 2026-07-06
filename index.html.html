@@ -192,9 +192,9 @@ var HITOS = [
   {nombre:"Control de avance Fase 2",ini_d:"2026-08-17",fin_d:"2026-08-28",fase:2,dur:12}
 ];
 
-var HOY = new Date("2026-07-06");
+var HOY = new Date(2026,6,6);
 
-function dd(s){return new Date(s);}
+function dd(s){var p=s.split("-");return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));}
 function pb(p){var m={Alta:"b-alta",Media:"b-media",Baja:"b-baja"};return '<span class="b '+m[p]+'">'+p+'</span>';}
 function sb(s){var sl=s.toLowerCase();var c="b-lev";if(sl.indexOf("completado")>=0)c="b-comp";else if(sl.indexOf("analisis")>=0||sl.indexOf("análisis")>=0)c="b-ana";else if(sl.indexOf("por iniciar")>=0)c="b-ini";return '<span class="b '+c+'">'+s+'</span>';}
 function rb(r){return '<span class="b '+(r.toLowerCase()==="quiter"?"b-q":"b-a")+'">'+r+'</span>';}

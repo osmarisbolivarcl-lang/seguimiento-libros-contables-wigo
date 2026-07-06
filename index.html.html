@@ -279,8 +279,8 @@ for(var i=0;i<FILAS.length;i++){
     var ss=dd(SEMS[j].d);
     var se=new Date(ss.getTime()+7*86400000);
     var ov=fs<se&&feI>ss;
-    var ih=HOY>=ss&&HOY<se;
-    var hl=ih?Math.round(((HOY-ss)/(7*86400000))*100):0;
+    var ih=HOY.getFullYear()===ss.getFullYear()&&HOY.getMonth()===ss.getMonth()&&HOY.getDate()===ss.getDate();
+    var hl=50;
     gh+="<td style='padding:0;position:relative;min-width:52px'>";
     if(ov)gh+="<div class='gbar' style='background:"+bc+"'></div>";
     if(ih)gh+="<div style='position:absolute;top:0;bottom:0;left:"+hl+"%;width:3px;background:#ff4500;z-index:5'></div>";

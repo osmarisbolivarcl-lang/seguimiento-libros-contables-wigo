@@ -73,7 +73,6 @@ footer strong{color:#1a4a3a;display:block;margin-bottom:2px}
     <button onclick="show('gan',this)">Cronograma Gantt</button>
   </div>
 </header>
-
 <main>
   <div id="v-mon">
     <div style="display:flex;flex-direction:column;gap:16px">
@@ -97,7 +96,6 @@ footer strong{color:#1a4a3a;display:block;margin-bottom:2px}
           </div>
         </div>
       </div>
-
       <div class="card">
         <div class="ch"><span>Detalle por sub estado</span></div>
         <div class="cb">
@@ -107,7 +105,6 @@ footer strong{color:#1a4a3a;display:block;margin-bottom:2px}
           <div class="brow"><div class="blbl">Por Iniciar</div><div class="btrk"><div class="bfil" style="width:22%;background:#8aaa99">2</div></div><div class="bcnt">2</div></div>
         </div>
       </div>
-
       <div class="card">
         <div class="ch"><span>Iniciativas &middot; Detalle y seguimiento</span><small>9 libros y registros</small></div>
         <div style="overflow-x:auto">
@@ -125,7 +122,6 @@ footer strong{color:#1a4a3a;display:block;margin-bottom:2px}
       </div>
     </div>
   </div>
-
   <div id="v-gan" class="hidden">
     <div class="card">
       <div class="ch"><span>Cronograma Gantt - Libros Contables</span><small>Jun - Ago 2026 · 10 semanas</small></div>
@@ -138,38 +134,23 @@ footer strong{color:#1a4a3a;display:block;margin-bottom:2px}
     </div>
   </div>
 </main>
-
 <footer><strong>Equipo de Transformacion Digital</strong>Elaborado por Osmaris Bolivar</footer>
-
 <script>
-var PCT = {
-  "levantamiento de procesos americar":10,
-  "ficha de requerimiento americar":20,
-  "validacion producto quiter":30,
-  "analisis quiter":40,
-  "aceptacion americar":50,
-  "desarrollo quiter":60,
-  "pruebas internas quiter":70,
-  "pruebas solucion americar":80,
-  "cierre quiter":90,
-  "subida paquete quiter":100,
-  "completado":100,
-  "por iniciar":0
-};
+var PCT={"levantamiento de procesos americar":10,"ficha de requerimiento americar":20,"validacion producto quiter":30,"analisis quiter":40,"aceptacion americar":50,"desarrollo quiter":60,"pruebas internas quiter":70,"pruebas solucion americar":80,"cierre quiter":90,"subida paquete quiter":100,"completado":100,"por iniciar":0};
 
-var INI = [
-  {id:1,ini:"Libro Diario",obj:"Corregir los errores de formatos para que cumpla con el formato del sistema validador del PLE.",pri:"Media",ku:"Monica Velasquez",sub:"Analisis Quiter",acc:"Evaluacion para modificar el formato del campo identificador",fac:"Pendiente",res:"Quiter",des:"Pendiente",fase:1,ini_d:"2026-04-24",fin_d:"2026-06-02",dur:40},
-  {id:2,ini:"Registro de Compra",obj:"Actualizar el formato actual para que cumpla con el formato SIRE.",pri:"Alta",ku:"Eris Gomez",sub:"Levantamiento de Procesos Americar",acc:"Elaboracion de macro",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-06-22",fin_d:"2026-06-26",dur:5},
-  {id:3,ini:"Registro de Venta",obj:"Actualizar el formato actual para que cumpla con el formato SIRE.",pri:"Alta",ku:"Eris Gomez",sub:"Levantamiento de Procesos Americar",acc:"Elaboracion de macro",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-06-22",fin_d:"2026-06-26",dur:5},
-  {id:4,ini:"Libro Mayor",obj:"Pendiente",pri:"Baja",ku:"Eris Gomez",sub:"Completado",acc:"Se valido con la SUNAT que el libro diario es valido como Libro Mayor, por lo tanto se puede cargar este documento y cumplir con la normativa vigente.",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-06-22",fin_d:"2026-07-10",dur:19},
-  {id:5,ini:"Libro Caja y Banco",obj:"Identificar errores de formatos y procesos en Quiter.",pri:"Alta",ku:"Victoria Sierra",sub:"Levantamiento de Procesos Americar",acc:"Ficha de requerimiento",fac:"08/07",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-07-01",fin_d:"2026-07-10",dur:10},
-  {id:6,ini:"Libro de Inventario",obj:"Identificar errores de formatos y procesos en Quiter.",pri:"Alta",ku:"Eris Gomez",sub:"Levantamiento de Procesos Americar",acc:"Levantamiento de Procesos Americar",fac:"09/07",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-07-06",fin_d:"2026-07-24",dur:15},
-  {id:7,ini:"Libro Activo Fijo",obj:"Identificar errores de formatos y procesos en Quiter.",pri:"Alta",ku:"Victoria Sierra",sub:"Levantamiento de Procesos Americar",acc:"Levantamiento de procesos",fac:"08/07",res:"Americar",des:"Pendiente",fase:1,ini_d:"2026-07-06",fin_d:"2026-07-17",dur:10},
-  {id:8,ini:"Inv. Permanente Vehiculos",obj:"Pendiente",pri:"Baja",ku:"Eris Gomez",sub:"Por Iniciar",acc:"-",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:2,ini_d:"2026-08-03",fin_d:"2026-08-14",dur:12},
-  {id:9,ini:"Inv. Permanente Repuestos",obj:"Pendiente",pri:"Baja",ku:"Pendiente",sub:"Por Iniciar",acc:"-",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:2,ini_d:"2026-08-03",fin_d:"2026-08-14",dur:12}
+var INI=[
+  {id:1,ini:"Libro Diario",obj:"Corregir los errores de formatos para que cumpla con el formato del sistema validador del PLE.",pri:"Media",ku:"Monica Velasquez",sub:"Analisis Quiter",acc:"Evaluacion para modificar el formato del campo identificador",fac:"Pendiente",res:"Quiter",des:"Pendiente",fase:1,id_d:"2026-04-24",fd_d:"2026-06-02",dur:40},
+  {id:2,ini:"Registro de Compra",obj:"Actualizar el formato actual para que cumpla con el formato SIRE.",pri:"Alta",ku:"Eris Gomez",sub:"Levantamiento de Procesos Americar",acc:"Elaboracion de macro",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:1,id_d:"2026-06-22",fd_d:"2026-06-26",dur:5},
+  {id:3,ini:"Registro de Venta",obj:"Actualizar el formato actual para que cumpla con el formato SIRE.",pri:"Alta",ku:"Eris Gomez",sub:"Levantamiento de Procesos Americar",acc:"Elaboracion de macro",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:1,id_d:"2026-06-22",fd_d:"2026-06-26",dur:5},
+  {id:4,ini:"Libro Mayor",obj:"Pendiente",pri:"Baja",ku:"Eris Gomez",sub:"Completado",acc:"Se valido con la SUNAT que el libro diario es valido como Libro Mayor.",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:1,id_d:"2026-06-22",fd_d:"2026-07-10",dur:19},
+  {id:5,ini:"Libro Caja y Banco",obj:"Identificar errores de formatos y procesos en Quiter.",pri:"Alta",ku:"Victoria Sierra",sub:"Levantamiento de Procesos Americar",acc:"Ficha de requerimiento",fac:"08/07",res:"Americar",des:"Pendiente",fase:1,id_d:"2026-07-01",fd_d:"2026-07-10",dur:10},
+  {id:6,ini:"Libro de Inventario",obj:"Identificar errores de formatos y procesos en Quiter.",pri:"Alta",ku:"Eris Gomez",sub:"Levantamiento de Procesos Americar",acc:"Levantamiento de Procesos Americar",fac:"09/07",res:"Americar",des:"Pendiente",fase:1,id_d:"2026-07-06",fd_d:"2026-07-24",dur:15},
+  {id:7,ini:"Libro Activo Fijo",obj:"Identificar errores de formatos y procesos en Quiter.",pri:"Alta",ku:"Victoria Sierra",sub:"Levantamiento de Procesos Americar",acc:"Levantamiento de procesos",fac:"08/07",res:"Americar",des:"Pendiente",fase:1,id_d:"2026-07-06",fd_d:"2026-07-17",dur:10},
+  {id:8,ini:"Inv. Permanente Vehiculos",obj:"Pendiente",pri:"Baja",ku:"Eris Gomez",sub:"Por Iniciar",acc:"-",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:2,id_d:"2026-08-03",fd_d:"2026-08-14",dur:12},
+  {id:9,ini:"Inv. Permanente Repuestos",obj:"Pendiente",pri:"Baja",ku:"Pendiente",sub:"Por Iniciar",acc:"-",fac:"Pendiente",res:"Americar",des:"Pendiente",fase:2,id_d:"2026-08-03",fd_d:"2026-08-14",dur:12}
 ];
 
-var SEMS = [
+var SEMS=[
   {l:"S4",f:"22-06",d:"2026-06-22",m:"JUNIO"},
   {l:"S1",f:"01-07",d:"2026-07-01",m:"JULIO"},
   {l:"S2",f:"06-07",d:"2026-07-06",m:"JULIO"},
@@ -182,123 +163,96 @@ var SEMS = [
   {l:"S4",f:"24-08",d:"2026-08-24",m:"AGOSTO"}
 ];
 
-var HITOS = [
-  {nombre:"Control de avance Fase 1",ini_d:"2026-07-20",fin_d:"2026-07-31",fase:1,dur:12},
-  {nombre:"Control de avance Fase 2",ini_d:"2026-08-17",fin_d:"2026-08-28",fase:2,dur:12}
+var HITOS=[
+  {nombre:"Control de avance Fase 1",id_d:"2026-07-20",fd_d:"2026-07-31",fase:1,dur:12},
+  {nombre:"Control de avance Fase 2",id_d:"2026-08-17",fd_d:"2026-08-28",fase:2,dur:12}
 ];
 
-// HOY fijo: 06 julio 2026
-var HOY = new Date(2026, 6, 6); // mes 6 = julio (0-indexed)
+var HOY=new Date(2026,6,6);
 
-// Convierte "YYYY-MM-DD" a Date local sin desfase UTC
-function dd(s) {
-  var p = s.split("-");
-  return new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
-}
-
-function stripAcc(s){
-  return s.toLowerCase()
-    .replace(/á/g,"a").replace(/é/g,"e").replace(/í/g,"i")
-    .replace(/ó/g,"o").replace(/ú/g,"u").replace(/ñ/g,"n");
-}
-
+function dd(s){var p=s.split("-");return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));}
+function sa(s){return s.toLowerCase().replace(/á/g,"a").replace(/é/g,"e").replace(/í/g,"i").replace(/ó/g,"o").replace(/ú/g,"u").replace(/ñ/g,"n");}
 function pb(p){var m={Alta:"b-alta",Media:"b-media",Baja:"b-baja"};return '<span class="b '+m[p]+'">'+p+'</span>';}
-function sb(s){var sl=stripAcc(s);var c="b-lev";if(sl.indexOf("completado")>=0)c="b-comp";else if(sl.indexOf("analisis")>=0)c="b-ana";else if(sl.indexOf("por iniciar")>=0)c="b-ini";return '<span class="b '+c+'">'+s+'</span>';}
+function sb(s){var sl=sa(s);var c=sl.indexOf("completado")>=0?"b-comp":sl.indexOf("analisis")>=0?"b-ana":sl.indexOf("por iniciar")>=0?"b-ini":"b-lev";return '<span class="b '+c+'">'+s+'</span>';}
 function rb(r){return '<span class="b '+(r.toLowerCase()==="quiter"?"b-q":"b-a")+'">'+r+'</span>';}
-function pnd(v){if(!v||v==="Pendiente")return '<span class="b b-pend">Pendiente</span>';return '<span>'+v+'</span>';}
+function pnd(v){return(!v||v==="Pendiente")?'<span class="b b-pend">Pendiente</span>':'<span>'+v+'</span>';}
+function fmtD(s){var d=dd(s);var ms=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];return ("0"+d.getDate()).slice(-2)+"-"+ms[d.getMonth()];}
 
-// ── TABLA MONITOREO ──
-var tb = document.getElementById("tb");
-var html = "";
+var tbh="";
 for(var i=0;i<INI.length;i++){
-  var x = INI[i];
-  var sl = stripAcc(x.sub);
-  var pct = (PCT[sl] !== undefined) ? PCT[sl] : 0;
-  var abg = pct===100?"#1a4a3a":pct>0?"#2d6b54":"#d1dbd7";
-  html += "<tr>";
-  html += "<td style='text-align:center;color:#4a7060;font-weight:bold'>"+("0"+(i+1)).slice(-2)+"</td>";
-  html += "<td style='font-weight:bold;white-space:nowrap'>"+x.ini+"</td>";
-  html += "<td style='color:#4a7060;max-width:170px;white-space:normal'>"+(x.obj==="Pendiente"?'<span class="b b-pend">Pendiente</span>':x.obj)+"</td>";
-  html += "<td style='text-align:center'>"+pb(x.pri)+"</td>";
-  html += "<td style='white-space:nowrap'>"+(x.ku==="Pendiente"?'<span class="b b-pend">Pendiente</span>':x.ku)+"</td>";
-  html += "<td>"+sb(x.sub)+"</td>";
-  html += "<td style='color:#4a7060;max-width:190px;white-space:normal'>"+(x.acc==="-"?"-":x.acc)+"</td>";
-  html += "<td style='text-align:center'>"+pnd(x.fac)+"</td>";
-  html += "<td style='text-align:center'>"+rb(x.res)+"</td>";
-  html += "<td style='text-align:center'>"+pnd(x.des)+"</td>";
-  html += "<td style='text-align:center'><div class='atrk'><div class='afil' style='width:"+pct+"%;background:"+abg+"'></div></div><div style='font-size:10px;font-weight:bold;color:"+(pct>0?"#1a4a3a":"#8aaa99")+"'>"+pct+"%</div></td>";
-  html += "</tr>";
+  var x=INI[i];
+  var pct=PCT[sa(x.sub)]!==undefined?PCT[sa(x.sub)]:0;
+  var abg=pct===100?"#1a4a3a":pct>0?"#2d6b54":"#d1dbd7";
+  tbh+="<tr>";
+  tbh+="<td style='text-align:center;color:#4a7060;font-weight:bold'>"+("0"+(i+1)).slice(-2)+"</td>";
+  tbh+="<td style='font-weight:bold;white-space:nowrap'>"+x.ini+"</td>";
+  tbh+="<td style='color:#4a7060;max-width:170px;white-space:normal'>"+(x.obj==="Pendiente"?'<span class="b b-pend">Pendiente</span>':x.obj)+"</td>";
+  tbh+="<td style='text-align:center'>"+pb(x.pri)+"</td>";
+  tbh+="<td style='white-space:nowrap'>"+(x.ku==="Pendiente"?'<span class="b b-pend">Pendiente</span>':x.ku)+"</td>";
+  tbh+="<td>"+sb(x.sub)+"</td>";
+  tbh+="<td style='color:#4a7060;max-width:190px;white-space:normal'>"+(x.acc==="-"?"-":x.acc)+"</td>";
+  tbh+="<td style='text-align:center'>"+pnd(x.fac)+"</td>";
+  tbh+="<td style='text-align:center'>"+rb(x.res)+"</td>";
+  tbh+="<td style='text-align:center'>"+pnd(x.des)+"</td>";
+  tbh+="<td style='text-align:center'><div class='atrk'><div class='afil' style='width:"+pct+"%;background:"+abg+"'></div></div><div style='font-size:10px;font-weight:bold;color:"+(pct>0?"#1a4a3a":"#8aaa99")+"'>"+pct+"%</div></td>";
+  tbh+="</tr>";
 }
-tb.innerHTML = html;
+document.getElementById("tb").innerHTML=tbh;
 
-// ── GANTT ──
 var meses=[];
 for(var i=0;i<SEMS.length;i++){
-  var s=SEMS[i];
-  if(meses.length>0&&meses[meses.length-1].m===s.m) meses[meses.length-1].c++;
-  else meses.push({m:s.m,c:1});
+  if(meses.length>0&&meses[meses.length-1].m===SEMS[i].m)meses[meses.length-1].c++;
+  else meses.push({m:SEMS[i].m,c:1});
 }
 
 var gh="<thead><tr><th colspan='8'></th>";
-for(var i=0;i<meses.length;i++) gh+="<th colspan='"+meses[i].c+"' class='gm'>"+meses[i].m+"</th>";
+for(var i=0;i<meses.length;i++)gh+="<th colspan='"+meses[i].c+"' class='gm'>"+meses[i].m+"</th>";
 gh+="</tr><tr><th colspan='8'></th>";
-for(var i=0;i<SEMS.length;i++) gh+="<th class='gs'>"+SEMS[i].l+"</th>";
+for(var i=0;i<SEMS.length;i++)gh+="<th class='gs'>"+SEMS[i].l+"</th>";
 gh+="</tr><tr>";
 var hds=["Fase","N","Iniciativa","Prioridad","F.Inicio","F.Fin","Dias","Estado"];
-for(var i=0;i<hds.length;i++) gh+="<th class='gf'>"+hds[i]+"</th>";
-
-// Cabecera semanas con HOY
+for(var i=0;i<hds.length;i++)gh+="<th class='gf'>"+hds[i]+"</th>";
 for(var i=0;i<SEMS.length;i++){
-  var ss = dd(SEMS[i].d);
-  var se = (i+1 < SEMS.length) ? dd(SEMS[i+1].d) : new Date(2026,8,1);
-  var esH = (HOY >= ss && HOY < se);
-  gh += "<th class='gf"+(esH?" ghoy":"")+"'>"+SEMS[i].f+(esH?"<br>HOY":"")+"</th>";
+  var ss=dd(SEMS[i].d);
+  var se=(i+1<SEMS.length)?dd(SEMS[i+1].d):new Date(2026,8,1);
+  var eh=(HOY>=ss&&HOY<se);
+  gh+="<th class='gf"+(eh?" ghoy":"")+"'>"+SEMS[i].f+(eh?"<br>HOY":"")+"</th>";
 }
 gh+="</tr></thead><tbody>";
 
-function fmtD(s){
-  var d=dd(s);
-  var ms=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
-  return ("0"+d.getDate()).slice(-2)+"-"+ms[d.getMonth()];
-}
-
 var fase1=INI.filter(function(x){return x.fase===1;});
 var fase2=INI.filter(function(x){return x.fase===2;});
-var FILAS=fase1
-  .concat([{tipo:"h",nombre:HITOS[0].nombre,ini_d:HITOS[0].ini_d,fin_d:HITOS[0].fin_d,dur:HITOS[0].dur,fase:1}])
-  .concat(fase2)
-  .concat([{tipo:"h",nombre:HITOS[1].nombre,ini_d:HITOS[1].ini_d,fin_d:HITOS[1].fin_d,dur:HITOS[1].dur,fase:2}]);
-
+var FILAS=fase1.concat([{tipo:"h",nombre:HITOS[0].nombre,id_d:HITOS[0].id_d,fd_d:HITOS[0].fd_d,dur:HITOS[0].dur,fase:1}]).concat(fase2).concat([{tipo:"h",nombre:HITOS[1].nombre,id_d:HITOS[1].id_d,fd_d:HITOS[1].fd_d,dur:HITOS[1].dur,fase:2}]);
 var pc={Alta:"#e8631a",Media:"#2d6b54",Baja:"#8aaa99"};
 
 for(var i=0;i<FILAS.length;i++){
   var f=FILAS[i];
-  var esHito=(f.tipo==="h");
-  var esComp=(!esHito&&f.sub&&stripAcc(f.sub).indexOf("completado")>=0);
-  var bc=esHito?"#f07d3a":esComp?"#1a4a3a":"#2d6b54";
-  var fs=dd(f.ini_d);
-  var fe=dd(f.fin_d);
-  var feI=new Date(fe.getFullYear(),fe.getMonth(),fe.getDate()+1); // fin inclusivo
+  var esH=(f.tipo==="h");
+  var esC=(!esH&&f.sub&&sa(f.sub).indexOf("completado")>=0);
+  var bc=esH?"#f07d3a":esC?"#1a4a3a":"#2d6b54";
+  var fs=dd(f.id_d);
+  var fe=dd(f.fd_d);
+  var feI=new Date(fe.getFullYear(),fe.getMonth(),fe.getDate()+1);
 
-  gh+="<tr class='"+(esHito?"hrow":"")+"'>";
-  gh+="<td>"+(esHito?"":f.fase)+"</td>";
-  gh+="<td style='color:#4a7060'>"+(esHito?"":f.id)+"</td>";
-  gh+="<td class='gn' style='"+(esHito?"color:#e8631a":esComp?"text-decoration:line-through":"")+"'>"+(esHito?f.nombre:f.ini)+"</td>";
-  gh+="<td style='text-align:center'>"+(esHito?"":("<span class='b' style='background:"+pc[f.pri]+"22;color:"+pc[f.pri]+"'>"+f.pri+"</span>"))+"</td>";
-  gh+="<td style='color:#4a7060'>"+fmtD(f.ini_d)+"</td>";
-  gh+="<td style='color:#4a7060'>"+fmtD(f.fin_d)+"</td>";
+  gh+="<tr class='"+(esH?"hrow":"")+"'>";
+  gh+="<td>"+(esH?"":f.fase)+"</td>";
+  gh+="<td style='color:#4a7060'>"+(esH?"":f.id)+"</td>";
+  gh+="<td class='gn' style='"+(esH?"color:#e8631a":esC?"text-decoration:line-through":"")+"'>"+(esH?f.nombre:f.ini)+"</td>";
+  gh+="<td style='text-align:center'>"+(esH?"":("<span class='b' style='background:"+pc[f.pri]+"22;color:"+pc[f.pri]+"'>"+f.pri+"</span>"))+"</td>";
+  gh+="<td style='color:#4a7060'>"+fmtD(f.id_d)+"</td>";
+  gh+="<td style='color:#4a7060'>"+fmtD(f.fd_d)+"</td>";
   gh+="<td style='font-weight:bold'>"+f.dur+"</td>";
-  gh+="<td>"+(esHito?"":("<span class='b "+(esComp?"b-comp":"b-lev")+"' style='font-size:10px'>"+(f.sub)+"</span>"))+"</td>";
+  gh+="<td>"+(esH?"":("<span class='b "+(esC?"b-comp":"b-lev")+"' style='font-size:10px'>"+f.sub+"</span>"))+"</td>";
 
   for(var j=0;j<SEMS.length;j++){
     var ss=dd(SEMS[j].d);
     var se=(j+1<SEMS.length)?dd(SEMS[j+1].d):new Date(2026,8,1);
-    var ov=(fs<se && feI>ss);
-    var esHoy=(HOY>=ss && HOY<se);
-    var hl=esHoy?Math.round(((HOY-ss)/(se-ss))*100):0;
+    var ov=(fs<se&&feI>ss);
+    var eh=(HOY>=ss&&HOY<se);
+    var hl=eh?Math.round(((HOY-ss)/(se-ss))*100):0;
     gh+="<td style='padding:0;position:relative;min-width:52px'>";
-    if(ov) gh+="<div class='gbar' style='background:"+bc+"'></div>";
-    if(esHoy) gh+="<div style='position:absolute;top:0;bottom:0;left:"+hl+"%;width:3px;background:#ff4500;z-index:5;box-shadow:0 0 4px rgba(255,69,0,0.8)'></div>";
+    if(ov)gh+="<div class='gbar' style='background:"+bc+"'></div>";
+    if(eh)gh+="<div style='position:absolute;top:0;bottom:0;left:"+hl+"%;width:3px;background:#ff4500;z-index:5;box-shadow:0 0 4px rgba(255,69,0,0.7)'></div>";
     gh+="</td>";
   }
   gh+="</tr>";
@@ -311,7 +265,7 @@ function show(v,btn){
   document.getElementById("v-gan").classList.add("hidden");
   document.getElementById("v-"+v).classList.remove("hidden");
   var btns=document.querySelectorAll(".nav button");
-  for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
+  for(var i=0;i<btns.length;i++)btns[i].classList.remove("active");
   btn.classList.add("active");
 }
 </script>

@@ -48,7 +48,6 @@ main{max-width:1400px;margin:0 auto;padding:20px;display:flex;flex-direction:col
 .atrk{width:54px;background:#d6e0da;border-radius:20px;height:5px;margin:0 auto 2px}
 .afil{height:100%;border-radius:20px}
 .hidden{display:none}
-/* GANTT */
 .gwrap{overflow-x:auto}
 .gt{border-collapse:collapse;min-width:900px;width:100%}
 .gt th{background:#1a4a3a;color:#fff;font-size:10px;padding:5px 5px;text-align:center;border-right:1px solid #2d6b54;font-weight:bold;text-transform:uppercase;white-space:nowrap}
@@ -78,8 +77,6 @@ footer strong{color:#1a4a3a;display:block;margin-bottom:2px}
 <main>
   <div id="v-mon">
     <div style="display:flex;flex-direction:column;gap:16px">
-
-      <!-- avance -->
       <div class="card">
         <div class="cb">
           <div style="display:flex;justify-content:space-between;margin-bottom:10px">
@@ -101,7 +98,6 @@ footer strong{color:#1a4a3a;display:block;margin-bottom:2px}
         </div>
       </div>
 
-      <!-- sub estado -->
       <div class="card">
         <div class="ch"><span>Detalle por sub estado</span></div>
         <div class="cb">
@@ -112,7 +108,6 @@ footer strong{color:#1a4a3a;display:block;margin-bottom:2px}
         </div>
       </div>
 
-      <!-- tabla -->
       <div class="card">
         <div class="ch"><span>Iniciativas &middot; Detalle y seguimiento</span><small>9 libros y registros</small></div>
         <div style="overflow-x:auto">
@@ -192,21 +187,33 @@ var HITOS = [
   {nombre:"Control de avance Fase 2",ini_d:"2026-08-17",fin_d:"2026-08-28",fase:2,dur:12}
 ];
 
-var HOY = new Date(2026,6,6);
+// HOY fijo: 06 julio 2026
+var HOY = new Date(2026, 6, 6); // mes 6 = julio (0-indexed)
 
-function dd(s){var p=s.split("-");return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));}
+// Convierte "YYYY-MM-DD" a Date local sin desfase UTC
+function dd(s) {
+  var p = s.split("-");
+  return new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
+}
+
+function stripAcc(s){
+  return s.toLowerCase()
+    .replace(/á/g,"a").replace(/é/g,"e").replace(/í/g,"i")
+    .replace(/ó/g,"o").replace(/ú/g,"u").replace(/ñ/g,"n");
+}
+
 function pb(p){var m={Alta:"b-alta",Media:"b-media",Baja:"b-baja"};return '<span class="b '+m[p]+'">'+p+'</span>';}
-function sb(s){var sl=s.toLowerCase();var c="b-lev";if(sl.indexOf("completado")>=0)c="b-comp";else if(sl.indexOf("analisis")>=0||sl.indexOf("análisis")>=0)c="b-ana";else if(sl.indexOf("por iniciar")>=0)c="b-ini";return '<span class="b '+c+'">'+s+'</span>';}
+function sb(s){var sl=stripAcc(s);var c="b-lev";if(sl.indexOf("completado")>=0)c="b-comp";else if(sl.indexOf("analisis")>=0)c="b-ana";else if(sl.indexOf("por iniciar")>=0)c="b-ini";return '<span class="b '+c+'">'+s+'</span>';}
 function rb(r){return '<span class="b '+(r.toLowerCase()==="quiter"?"b-q":"b-a")+'">'+r+'</span>';}
 function pnd(v){if(!v||v==="Pendiente")return '<span class="b b-pend">Pendiente</span>';return '<span>'+v+'</span>';}
 
-// Tabla
+// ── TABLA MONITOREO ──
 var tb = document.getElementById("tb");
 var html = "";
 for(var i=0;i<INI.length;i++){
   var x = INI[i];
-  var sl = x.sub.toLowerCase().replace(/á/g,"a").replace(/é/g,"e").replace(/í/g,"i").replace(/ó/g,"o").replace(/ú/g,"u");
-  var pct = PCT[sl] !== undefined ? PCT[sl] : 0;
+  var sl = stripAcc(x.sub);
+  var pct = (PCT[sl] !== undefined) ? PCT[sl] : 0;
   var abg = pct===100?"#1a4a3a":pct>0?"#2d6b54":"#d1dbd7";
   html += "<tr>";
   html += "<td style='text-align:center;color:#4a7060;font-weight:bold'>"+("0"+(i+1)).slice(-2)+"</td>";
@@ -224,66 +231,74 @@ for(var i=0;i<INI.length;i++){
 }
 tb.innerHTML = html;
 
-// Gantt
+// ── GANTT ──
 var meses=[];
 for(var i=0;i<SEMS.length;i++){
   var s=SEMS[i];
-  if(meses.length>0&&meses[meses.length-1].m===s.m)meses[meses.length-1].c++;
+  if(meses.length>0&&meses[meses.length-1].m===s.m) meses[meses.length-1].c++;
   else meses.push({m:s.m,c:1});
 }
 
 var gh="<thead><tr><th colspan='8'></th>";
-for(var i=0;i<meses.length;i++)gh+="<th colspan='"+meses[i].c+"' class='gm'>"+meses[i].m+"</th>";
+for(var i=0;i<meses.length;i++) gh+="<th colspan='"+meses[i].c+"' class='gm'>"+meses[i].m+"</th>";
 gh+="</tr><tr><th colspan='8'></th>";
-for(var i=0;i<SEMS.length;i++)gh+="<th class='gs'>"+SEMS[i].l+"</th>";
+for(var i=0;i<SEMS.length;i++) gh+="<th class='gs'>"+SEMS[i].l+"</th>";
 gh+="</tr><tr>";
 var hds=["Fase","N","Iniciativa","Prioridad","F.Inicio","F.Fin","Dias","Estado"];
-for(var i=0;i<hds.length;i++)gh+="<th class='gf'>"+hds[i]+"</th>";
+for(var i=0;i<hds.length;i++) gh+="<th class='gf'>"+hds[i]+"</th>";
+
+// Cabecera semanas con HOY
 for(var i=0;i<SEMS.length;i++){
-  var ss=dd(SEMS[i].d);
-  var se=new Date(ss.getTime()+7*86400000);
-  var eh=HOY>=ss&&HOY<se;
-  gh+="<th class='gf"+(eh?" ghoy":"")+"'>"+SEMS[i].f+(eh?"<br>HOY":"")+"</th>";
+  var ss = dd(SEMS[i].d);
+  var se = (i+1 < SEMS.length) ? dd(SEMS[i+1].d) : new Date(2026,8,1);
+  var esH = (HOY >= ss && HOY < se);
+  gh += "<th class='gf"+(esH?" ghoy":"")+"'>"+SEMS[i].f+(esH?"<br>HOY":"")+"</th>";
 }
 gh+="</tr></thead><tbody>";
 
-function fmtD(s){var d=new Date(s);var ms=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];return ("0"+d.getDate()).slice(-2)+"-"+ms[d.getMonth()];}
+function fmtD(s){
+  var d=dd(s);
+  var ms=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  return ("0"+d.getDate()).slice(-2)+"-"+ms[d.getMonth()];
+}
 
-var fase1 = INI.filter(function(x){return x.fase===1;});
-var fase2 = INI.filter(function(x){return x.fase===2;});
-var FILAS = fase1.concat([{tipo:"h",nombre:HITOS[0].nombre,ini_d:HITOS[0].ini_d,fin_d:HITOS[0].fin_d,dur:HITOS[0].dur,fase:1}]).concat(fase2).concat([{tipo:"h",nombre:HITOS[1].nombre,ini_d:HITOS[1].ini_d,fin_d:HITOS[1].fin_d,dur:HITOS[1].dur,fase:2}]);
+var fase1=INI.filter(function(x){return x.fase===1;});
+var fase2=INI.filter(function(x){return x.fase===2;});
+var FILAS=fase1
+  .concat([{tipo:"h",nombre:HITOS[0].nombre,ini_d:HITOS[0].ini_d,fin_d:HITOS[0].fin_d,dur:HITOS[0].dur,fase:1}])
+  .concat(fase2)
+  .concat([{tipo:"h",nombre:HITOS[1].nombre,ini_d:HITOS[1].ini_d,fin_d:HITOS[1].fin_d,dur:HITOS[1].dur,fase:2}]);
+
+var pc={Alta:"#e8631a",Media:"#2d6b54",Baja:"#8aaa99"};
 
 for(var i=0;i<FILAS.length;i++){
   var f=FILAS[i];
-  var eh=f.tipo==="h";
-  var ec=!eh&&f.sub&&f.sub.toLowerCase()==="completado";
-  var bc=eh?"#f07d3a":ec?"#1a4a3a":"#2d6b54";
+  var esHito=(f.tipo==="h");
+  var esComp=(!esHito&&f.sub&&stripAcc(f.sub).indexOf("completado")>=0);
+  var bc=esHito?"#f07d3a":esComp?"#1a4a3a":"#2d6b54";
   var fs=dd(f.ini_d);
   var fe=dd(f.fin_d);
-  var feI=new Date(fe.getTime()+86400000);
-  var sl=(!eh&&f.sub)?f.sub.toLowerCase().replace(/á/g,"a").replace(/é/g,"e").replace(/í/g,"i").replace(/ó/g,"o").replace(/ú/g,"u"):"";
-  var pct=eh?0:(PCT[sl]!==undefined?PCT[sl]:0);
-  var pc={Alta:"#e8631a",Media:"#2d6b54",Baja:"#8aaa99"};
+  var feI=new Date(fe.getFullYear(),fe.getMonth(),fe.getDate()+1); // fin inclusivo
 
-  gh+="<tr class='"+(eh?"hrow":"")+"'>";
-  gh+="<td>"+(eh?"":f.fase)+"</td>";
-  gh+="<td style='color:#4a7060'>"+(eh?"":f.id)+"</td>";
-  gh+="<td class='gn' style='"+(eh?"color:#e8631a":ec?"text-decoration:line-through":"")+"'>"+(eh?f.nombre:f.ini)+"</td>";
-  gh+="<td style='text-align:center'>"+(eh?"":("<span class='b' style='background:"+pc[f.pri]+"22;color:"+pc[f.pri]+"'>"+f.pri+"</span>"))+"</td>";
+  gh+="<tr class='"+(esHito?"hrow":"")+"'>";
+  gh+="<td>"+(esHito?"":f.fase)+"</td>";
+  gh+="<td style='color:#4a7060'>"+(esHito?"":f.id)+"</td>";
+  gh+="<td class='gn' style='"+(esHito?"color:#e8631a":esComp?"text-decoration:line-through":"")+"'>"+(esHito?f.nombre:f.ini)+"</td>";
+  gh+="<td style='text-align:center'>"+(esHito?"":("<span class='b' style='background:"+pc[f.pri]+"22;color:"+pc[f.pri]+"'>"+f.pri+"</span>"))+"</td>";
   gh+="<td style='color:#4a7060'>"+fmtD(f.ini_d)+"</td>";
   gh+="<td style='color:#4a7060'>"+fmtD(f.fin_d)+"</td>";
   gh+="<td style='font-weight:bold'>"+f.dur+"</td>";
-  gh+="<td>"+(eh?"":("<span class='b "+(ec?"b-comp":"b-lev")+"' style='font-size:10px'>"+(ec?"Completado":f.sub)+"</span>"))+"</td>";
+  gh+="<td>"+(esHito?"":("<span class='b "+(esComp?"b-comp":"b-lev")+"' style='font-size:10px'>"+(f.sub)+"</span>"))+"</td>";
 
   for(var j=0;j<SEMS.length;j++){
     var ss=dd(SEMS[j].d);
-    var se=new Date(ss.getTime()+7*86400000);
-    var ov=fs<se&&feI>ss;
-    var ih=HOY.getFullYear()===ss.getFullYear()&&HOY.getMonth()===ss.getMonth()&&HOY.getDate()===ss.getDate();
-    var hl=50;
+    var se=(j+1<SEMS.length)?dd(SEMS[j+1].d):new Date(2026,8,1);
+    var ov=(fs<se && feI>ss);
+    var esHoy=(HOY>=ss && HOY<se);
+    var hl=esHoy?Math.round(((HOY-ss)/(se-ss))*100):0;
     gh+="<td style='padding:0;position:relative;min-width:52px'>";
-    if(ov)gh+="<div class='gbar' style='background:"+bc+"'></div>";
-    if(ih)gh+="<div style='position:absolute;top:0;bottom:0;left:"+hl+"%;width:3px;background:#ff4500;z-index:5'></div>";
+    if(ov) gh+="<div class='gbar' style='background:"+bc+"'></div>";
+    if(esHoy) gh+="<div style='position:absolute;top:0;bottom:0;left:"+hl+"%;width:3px;background:#ff4500;z-index:5;box-shadow:0 0 4px rgba(255,69,0,0.8)'></div>";
     gh+="</td>";
   }
   gh+="</tr>";
@@ -296,7 +311,7 @@ function show(v,btn){
   document.getElementById("v-gan").classList.add("hidden");
   document.getElementById("v-"+v).classList.remove("hidden");
   var btns=document.querySelectorAll(".nav button");
-  for(var i=0;i<btns.length;i++)btns[i].classList.remove("active");
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
   btn.classList.add("active");
 }
 </script>
